@@ -1,0 +1,111 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Container holding the image and the text */
+.container-thing {
+    position: relative;
+    /* text-align: center; */
+    /* color: white; */
+  }
+  
+/* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 16px;
+    right: 5px;
+  }
+  
+.product-title {
+    background-color: black;
+    color: white;
+}
+
+/* From the internet */
+
+.select-style {
+    /* border: 1px solid black; */
+    /* width: 100px; */
+    /* border-radius: 3px; */
+    overflow: hidden;
+    /* background: #fafafa url("img/icon-select.png") no-repeat 90% 50%; */
+}
+
+.select-style select {
+    /* padding: 5px 8px; */
+    /* width: 130%; */
+    /** Don't need above */
+    border: none;
+    /* box-shadow: none; */
+    /* background: transparent; */
+    /* background-image: none; */
+    /* -webkit-appearance: none; */
+    border-radius: 0px;
+    text-align-last:center;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+
+.gray-color {
+    color: #828282;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+
+.foo {
+    border-bottom: 2px solid black;
+}
+
+a {
+    color: black;
+}
+
+.bar input {
+    -webkit-appearance: none;
+    border: 1px solid black;
+    /* border-bottom: 1px solid black; */
+}
+
+.car input {
+    -webkit-appearance: checkbox;
+    border: 1px solid black;
+    /* border-bottom: 1px solid black; */
+}
+
+input:focus {
+    outline: none;
+}
