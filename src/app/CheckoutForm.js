@@ -8,18 +8,17 @@ export class CheckoutForm extends React.Component {
         this.state = {
             value: '',
             isGoing: false,
-            numberOfGuests: 2
         };
-    
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-  
+
     handleChange(event) {
         this.setState({value: event.target.value});
     }
-  
+
     handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
         event.preventDefault();
@@ -29,12 +28,12 @@ export class CheckoutForm extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-    
+
         this.setState({
           [name]: value
         });
     }
-  
+
     render() {
             return (
                 <form className="bar" onSubmit={this.handleSubmit}>

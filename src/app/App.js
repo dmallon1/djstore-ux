@@ -29,7 +29,7 @@ function NavBarFunc() {
     return (
         <Navbar>
             <Link to="/">
-                <img src={logo} height={30} alt="logo"/>            
+                <img src={logo} height={30} alt="logo"/>
             </Link>
             <Nav className="ml-auto">
                 <Link to="/checkout">
@@ -67,7 +67,7 @@ function ProductPage() {
                     </div>
                     <div className="select-style px-2">
                         <select className="px-2" defaultValue="m" style={{color:'white', backgroundColor:'black', height: 36 + 'px', fontSize: 24}}>
-                            <option value="xs">xs</option>                        
+                            <option value="xs">xs</option>
                             <option value="s">s</option>
                             <option value="m">m</option>
                             <option value="l">l</option>
@@ -76,7 +76,7 @@ function ProductPage() {
                         </select>
                     </div>
                 </div>
-                
+
                 <p style={{fontSize: 24}}>$49</p>
             </div>
             {/* Product Subtitle */}
@@ -103,14 +103,14 @@ function AllProductsPage() {
 /**
  * Will be the base storeitem for the display page, containing a picture
  * and a price.
- * @param {object} props 
+ * @param {object} props
  */
 function StoreItem(props) {
     return (
         <div className="container-thing" style={{marginLeft: 'auto', marginRight: 'auto'}}>
             <Link to="/pineapple">
                 <img className="border border-dark my-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
-                {props.showPrice && 
+                {props.showPrice &&
                     <div className="bottom-right font-weight-light">
                         ${props.price}
                     </div>
