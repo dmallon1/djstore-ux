@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Link } from "react-router-dom";
-import { CheckoutForm } from './CheckoutForm';
 
 export function Checkout() {
     return (
@@ -33,8 +32,6 @@ export function Checkout() {
             <div className="d-flex justify-content-center">
                 <hr className="border border-dark m-3" style={{width:200+'px'}}/>
             </div>
-            {/* Checkout Form */}
-            <CheckoutForm/>
         </React.Fragment>
     );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import {StripeProvider} from 'react-stripe-elements';
-import {Elements} from 'react-stripe-elements';
-import {injectStripe, CardElement} from 'react-stripe-elements';
+import {StripeProvider, Elements, injectStripe, CardElement} from 'react-stripe-elements';
+import {Link} from "react-router-dom";
+import { Checkout } from './Checkout';
 
 
 export function Stripe() {
@@ -14,17 +14,66 @@ export function Stripe() {
 
 
 class _CardForm extends React.Component {
-    handleSubmit = (ev) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+            isGoing: false,
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.value);
+        event.preventDefault();
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+          [name]: value
+        });
+    }
+
+    handleSubmitStripe = (ev) => {
         ev.preventDefault();
         if (this.props.stripe) {
             this.props.stripe.createToken()
             .then((payload) => console.log('[token]', payload));
         }
+        // send token to backend with customer information and order information
     };
 
     render() {
         return (
-            <React.Fragment>
+            <form className="bar" onSubmit={this.handleSubmitStripe}>
+                <Checkout/>
+                {/* Name and address */}
+                <input className="my-2" style={{width:100+'%'}} type="text" placeholder="name" value={this.state.value} onChange={this.handleChange}/>
+                <input className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.value} onChange={this.handleChange}/>
+                <div className="d-flex justify-content-between">
+                    <input className="my-2 mr-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.value} onChange={this.handleChange}/>
+                    <input className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.value} onChange={this.handleChange}/>
+                </div>
+                <div className="d-flex justify-content-between">
+                    <input className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.value} onChange={this.handleChange}/>
+                    <input className="my-2" style={{width:20+'%'}} type="text" placeholder="state" value={this.state.value} onChange={this.handleChange}/>
+                </div>
+                {/* Separator */}
+                <div className="d-flex justify-content-center">
+                    <hr className="border border-dark m-3" style={{width:200+'px'}}/>
+                </div>
+                {/* Stripe */}
                 <CardElement
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -32,8 +81,23 @@ class _CardForm extends React.Component {
                     onReady={handleReady}
                     {...createOptions(this.props.fontSize)}
                 />
-                {/* <button onClick={this.handleSubmit}>Pay</button> */}
-            </React.Fragment>
+                {/* Checkbox */}
+                <div className="car d-flex">
+                    <label>
+                        <input style={{width:25+'px', height:25+'px'}}
+                            name="isGoing"
+                            type="checkbox"
+                            checked={this.state.isGoing}
+                            onChange={this.handleInputChange}/>
+                        I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>.
+                    </label>
+                </div>
+
+                {/* Submit */}
+                <div className="p-2 d-flex justify-content-center">
+                    <input type="submit" value="checkout" style={{fontSize:24+'px'}}/>
+                </div>
+            </form>
         );
     }
 }

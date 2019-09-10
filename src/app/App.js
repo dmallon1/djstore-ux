@@ -1,12 +1,10 @@
 import React from 'react';
-import tempPic from './pics/pineapple-shirt.png';
-import pic2 from './pics/avocado-shirt.png';
 import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import logo from './pics/dj-logo.png';
 import cart from './pics/cart.png';
-import {Checkout} from './Checkout';
+import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 
@@ -16,8 +14,8 @@ export function AppRouter() {
             <NavBarFunc/>
             <div className="container">
                 <Route path="/" exact component={AllProductsPage} />
+                <Route path="/checkout" component={Stripe} />
                 <Route path="/pineapple" component={ProductPage} />
-                <Route path="/checkout" component={Checkout} />
                 <Footer/>
             </div>
         </Router>
@@ -59,7 +57,7 @@ function ProductPage() {
             <div className="product-title text-center">
                 <h1>pineapple</h1>
             </div>
-            <StoreItem picture={tempPic} price={49}/>
+            <StoreItem picture={process.env.PUBLIC_URL + '/img/pineapple-shirt.png'} price={49}/>
             <div className="mb-3 d-flex justify-content-between">
                 <div className="d-flex">
                     <div className="product-title d-flex justify-content-center" style={{width: 144 + 'px', height: 36 + 'px'}}>
@@ -88,15 +86,34 @@ function ProductPage() {
 }
 
 
-function AllProductsPage() {
-    return (
-        <React.Fragment>
-            <h1 className="font-weight-light">products</h1>
-            <hr className="border border-dark m-0"/>
-            <StoreItem picture={tempPic} price={49} showPrice={true}/>
-            <StoreItem picture={pic2} price={39} showPrice={true}/>
-        </React.Fragment>
-    );
+class AllProductsPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {products: null};
+    }
+
+    componentDidMount() {
+        // fetch all products
+        fetch("http://localhost:8000/api/product/").then(res => {
+            return res.json();
+        }).then(data => {
+            console.log(data);
+            this.setState({products: data});
+        });
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <h1 className="font-weight-light">products</h1>
+                <hr className="border border-dark m-0"/>
+                {this.state.products && this.state.products.map(product => (
+                    <StoreItem picture={process.env.PUBLIC_URL + product.picture_url}
+                        price={product.price} showPrice={true} to={product.title}/>
+                ))}
+            </React.Fragment>
+        );
+    }
 }
 
 
@@ -108,7 +125,7 @@ function AllProductsPage() {
 function StoreItem(props) {
     return (
         <div className="container-thing" style={{marginLeft: 'auto', marginRight: 'auto'}}>
-            <Link to="/pineapple">
+            <Link to={props.to}>
                 <img className="border border-dark my-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
                 {props.showPrice &&
                     <div className="bottom-right font-weight-light">
