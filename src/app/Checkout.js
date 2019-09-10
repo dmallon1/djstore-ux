@@ -1,5 +1,4 @@
 import React from 'react';
-// import Table from 'react-bootstrap/Table'
 import { BrowserRouter as Link } from "react-router-dom";
 import { CheckoutForm } from './CheckoutForm';
 
@@ -30,11 +29,9 @@ export function Checkout() {
                     </tr>
                 </tbody>
             </table>
-            {/* Apple Pay Button */}
-            <div className="d-flex justify-content-center p-3">
-                <div className="product-title d-flex justify-content-center align-items-center" style={{height:40+'px', width:100+'px'}}>
-                    Pay
-                </div>
+            {/* Separator */}
+            <div className="d-flex justify-content-center">
+                <hr className="border border-dark m-3" style={{width:200+'px'}}/>
             </div>
             {/* Checkout Form */}
             <CheckoutForm/>

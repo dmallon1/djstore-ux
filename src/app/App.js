@@ -10,7 +10,7 @@ import {Checkout} from './Checkout';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 
-export default function AppRouter() {
+export function AppRouter() {
     return (
         <Router>
             <NavBarFunc/>

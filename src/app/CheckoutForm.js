@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {Stripe} from "./Stripe";
 
 
 export class CheckoutForm extends React.Component {
@@ -52,25 +53,18 @@ export class CheckoutForm extends React.Component {
                     <div className="d-flex justify-content-center">
                         <hr className="border border-dark m-3" style={{width:200+'px'}}/>
                     </div>
-                    {/* Credit Card */}
-                    <input className="my-2" style={{width:100+'%'}} type="text" placeholder="card number" value={this.state.value} onChange={this.handleChange}/> 
-                    <div className="d-flex justify-content-between align-items-center">
-                        <input className="my-2 mr-2" style={{width:25+'px'}} type="text" placeholder="01" value={this.state.value} onChange={this.handleChange}/>
-                        <input className="my-2 mr-2" style={{width:25+'px'}} type="text" placeholder="19" value={this.state.value} onChange={this.handleChange}/>                        
-                        <input className="my-2 mr-2" style={{width:20+'%'}} type="text" placeholder="state" value={this.state.value} onChange={this.handleChange}/>
-                        <div className="product-title d-flex justify-content-center align-items-center" style={{width:100+'%', fontSize:12+'px', height:28+'px'}}>
-                            different billing zip code
-                        </div>
-                    </div>
+                    {/* Stripe */}
+                    <Stripe/>
                     {/* Checkbox */}
                     <div className="car d-flex">
-                        {/* Is going: */}
-                        <input style={{width:25+'px', height:25+'px'}}
-                            name="isGoing"
-                            type="checkbox"
-                            checked={this.state.isGoing}
-                            onChange={this.handleInputChange}/>
-                        <p>I agree to the <Link to="/terms">terms</Link></p>
+                        <label>
+                            <input style={{width:25+'px', height:25+'px'}}
+                                name="isGoing"
+                                type="checkbox"
+                                checked={this.state.isGoing}
+                                onChange={this.handleInputChange}/>
+                            I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>.
+                        </label>
                     </div>
 
                     {/* Submit */}
