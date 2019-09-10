@@ -1,30 +1,38 @@
 import React from 'react';
-import { BrowserRouter as Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-export function Checkout() {
+export function Checkout(props) {
+    let total = 0;
+    let shippingCost = 4.99;
+    props.productsInCart.map(item => total += item.product.price);
+    const tax = Number(((shippingCost + total)*.06).toFixed(2));
+    total = tax + shippingCost;
+
     return (
         <React.Fragment>
-            <h1 className="font-weight-light">checkout</h1>
-            <hr className="border border-dark m-0 mb-4"/>
-
             {/* Table */}
             <table style={{width:100+'%'}}>
                 <tbody>
-                    <tr className="foo">
-                        <td className="p-2">[1x] <Link to="/pineapple">pineapple</Link> | L</td>
-                        <td className="p-2 text-right" style={{width: 75+'px'}}>$49</td>
-                    </tr>
+                    {props.productsInCart.map((item, i) => {
+                        total += item.product.price;
+                        return (
+                            <tr key={i} className="foo">
+                                <td className="p-2">[1x] <Link to={"/" + item.product.title}>{item.product.title}</Link> | {item.size}</td>
+                                <td className="p-2 text-right" style={{width: 75+'px'}}>${item.product.price}</td>
+                            </tr>
+                        );
+                    })}
                     <tr>
                         <td className="p-2">shipping</td>
-                        <td className="p-2 text-right">$4.99</td>
+                        <td className="p-2 text-right">${shippingCost}</td>
                     </tr>
                     <tr>
-                        <td className="p-2">estimated tax [i]</td>
-                        <td className="p-2 text-right">$3.24</td>
+                        <td className="p-2">estimated tax [i] (6%)</td>
+                        <td className="p-2 text-right">${tax}</td>
                     </tr>
                     <tr className="font-weight-bold">
                         <td className="p-2">total</td>
-                        <td className="p-2 text-right">$57.23</td>
+                        <td className="p-2 text-right">${total.toFixed(2)}</td>
                     </tr>
                 </tbody>
             </table>

@@ -8,22 +8,54 @@ import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 
-export function AppRouter() {
-    return (
-        <Router>
-            <NavBarFunc/>
-            <div className="container">
-                <Route path="/" exact component={AllProductsPage} />
-                <Route path="/checkout" component={Stripe} />
-                <Route path="/pineapple" component={ProductPage} />
-                <Footer/>
-            </div>
-        </Router>
-    );
+export class AppRouter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            products: null,
+            productsInCart: [],
+            chosenSize: "xs",
+        };
+    }
+
+    componentDidMount() {
+        // fetch all products
+        fetch("http://localhost:8000/api/product/").then(res => {
+            return res.json();
+        }).then(data => {
+            this.setState({products: data});
+        });
+    }
+
+    addToCart(product) {
+        let cart = this.state.productsInCart;
+        cart.push({product: product, size: this.state.chosenSize});
+        this.setState({productsInCart: cart});
+    }
+
+    changeSize(e) {
+        this.setState({chosenSize: e.target.value});
+    }
+
+    render() {
+        return (
+            <Router>
+                <NavBarFunc productsInCart={this.state.productsInCart}/>
+                <div className="container">
+                    <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
+                    <Route path="/checkout" render={() => <Stripe productsInCart={this.state.productsInCart}/> }/>
+                    <Route path="/:product" render={(props) => <ProductPage {...props} products={this.state.products} addToCart={(product) => this.addToCart(product)}
+                        changeSize={(e) => this.changeSize(e)} chosenSize={props.chosenSize}
+                    />}/>
+                    <Footer/>
+                </div>
+            </Router>
+        );
+    }
 }
 
 
-function NavBarFunc() {
+function NavBarFunc(props) {
     return (
         <Navbar>
             <Link to="/">
@@ -31,7 +63,13 @@ function NavBarFunc() {
             </Link>
             <Nav className="ml-auto">
                 <Link to="/checkout">
-                    <img src={cart} height={30} alt="cart"/>
+                    <div className="d-flex">
+                        {props.productsInCart.length > 0 &&
+                            <h4 className="m-0 mr-2"><span className="badge badge-secondary">
+                                {props.productsInCart.length}</span></h4>
+                        }
+                        <img src={cart} height={30} alt="cart"/>
+                    </div>
                 </Link>
             </Nav>
       </Navbar>
@@ -51,20 +89,23 @@ function Footer() {
 }
 
 
-function ProductPage() {
+function ProductPage(props) {
+    const chosenProduct = props.products && props.products.find(el => el.title === props.match.params.product);
+    if (!chosenProduct) {
+        return null;
+    }
+
     return (
         <React.Fragment>
             <div className="product-title text-center">
-                <h1>pineapple</h1>
+                <h1>{chosenProduct.title}</h1>
             </div>
-            <StoreItem picture={process.env.PUBLIC_URL + '/img/pineapple-shirt.png'} price={49}/>
+            <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
             <div className="mb-3 d-flex justify-content-between">
                 <div className="d-flex">
-                    <div className="product-title d-flex justify-content-center" style={{width: 144 + 'px', height: 36 + 'px'}}>
-                    <p className="justify-content-center align-self-center m-0" style={{fontSize: 24}}>add to cart</p>
-                    </div>
+                    <button type="button" className="btn btn-dark mt-0" onClick={() => props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
                     <div className="select-style px-2">
-                        <select className="px-2" defaultValue="m" style={{color:'white', backgroundColor:'black', height: 36 + 'px', fontSize: 24}}>
+                        <select onChange={(e) => props.changeSize(e)} value={props.chosenSize} className="px-2" style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
                             <option value="xs">xs</option>
                             <option value="s">s</option>
                             <option value="m">m</option>
@@ -75,45 +116,28 @@ function ProductPage() {
                     </div>
                 </div>
 
-                <p style={{fontSize: 24}}>$49</p>
+                <p style={{fontSize: 24}}>${chosenProduct.price}</p>
             </div>
             {/* Product Subtitle */}
             <div>
-                <p className="gray-color" style={{fontSize: 14}}>Made from 100% ring spun combed cotton (heathers are 50/50 cotton/poly).</p>
+                <p className="gray-color" style={{fontSize: 14}}>{chosenProduct.description}</p>
             </div>
         </React.Fragment>
     );
 }
 
 
-class AllProductsPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {products: null};
-    }
-
-    componentDidMount() {
-        // fetch all products
-        fetch("http://localhost:8000/api/product/").then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data);
-            this.setState({products: data});
-        });
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                <h1 className="font-weight-light">products</h1>
-                <hr className="border border-dark m-0"/>
-                {this.state.products && this.state.products.map(product => (
-                    <StoreItem picture={process.env.PUBLIC_URL + product.picture_url}
-                        price={product.price} showPrice={true} to={product.title}/>
-                ))}
-            </React.Fragment>
-        );
-    }
+function AllProductsPage(props) {
+    return (
+        <React.Fragment>
+            <h1 className="font-weight-light">products</h1>
+            <hr className="border border-dark m-0"/>
+            {props.products && props.products.map(product => (
+                <StoreItem key={product.id} picture={process.env.PUBLIC_URL + product.picture_url}
+                    price={product.price} showPrice={true} to={product.title}/>
+            ))}
+        </React.Fragment>
+    );
 }
 
 
@@ -123,16 +147,33 @@ class AllProductsPage extends React.Component {
  * @param {object} props
  */
 function StoreItem(props) {
+    if (props.to) {
+        return (
+            <div className="container-thing" style={{marginLeft: 'auto', marginRight: 'auto'}}>
+                <Link to={props.to}>
+                    <InnerStoreItem {...props}/>
+                </Link>
+            </div>
+        );
+    }
+
     return (
         <div className="container-thing" style={{marginLeft: 'auto', marginRight: 'auto'}}>
-            <Link to={props.to}>
-                <img className="border border-dark my-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
-                {props.showPrice &&
-                    <div className="bottom-right font-weight-light">
-                        ${props.price}
-                    </div>
-                }
-            </Link>
+            <InnerStoreItem {...props}/>
         </div>
+    );
+}
+
+
+function InnerStoreItem(props) {
+    return (
+        <React.Fragment>
+            <img className="border border-dark my-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
+            {props.showPrice &&
+                <div className="bottom-right font-weight-light">
+                    ${props.price}
+                </div>
+            }
+        </React.Fragment>
     );
 }

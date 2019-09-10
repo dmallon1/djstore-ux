@@ -4,10 +4,10 @@ import {Link} from "react-router-dom";
 import { Checkout } from './Checkout';
 
 
-export function Stripe() {
+export function Stripe(props) {
     return (
         <StripeProvider apiKey="pk_test_sPXa5QskrgAo4pHigkKek3tO006EVPf0RS">
-            <MyStoreCheckout />
+            <MyStoreCheckout {...props} />
         </StripeProvider>
     );
 }
@@ -55,9 +55,20 @@ class _CardForm extends React.Component {
     };
 
     render() {
+        if (this.props.productsInCart.length < 1) {
+            return (
+                <React.Fragment>
+                    <h1 className="font-weight-light">checkout</h1>
+                    <hr className="border border-dark m-0 mb-4"/>
+                    <p>No items in cart. Add one <Link to={"/"}>here</Link>.</p>
+                </React.Fragment>
+            );
+        }
         return (
             <form className="bar" onSubmit={this.handleSubmitStripe}>
-                <Checkout/>
+                <h1 className="font-weight-light">checkout</h1>
+                <hr className="border border-dark m-0 mb-4"/>
+                <Checkout {...this.props}/>
                 {/* Name and address */}
                 <input className="my-2" style={{width:100+'%'}} type="text" placeholder="name" value={this.state.value} onChange={this.handleChange}/>
                 <input className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.value} onChange={this.handleChange}/>
@@ -108,7 +119,7 @@ class MyStoreCheckout extends React.Component {
     render() {
         return (
             <Elements>
-                <CardForm/>
+                <CardForm {...this.props}/>
             </Elements>
         );
     }
