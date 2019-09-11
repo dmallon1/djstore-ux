@@ -2,6 +2,8 @@ import React from 'react';
 import {StripeProvider, Elements, injectStripe, CardElement} from 'react-stripe-elements';
 import {Link} from "react-router-dom";
 import { Checkout } from './Checkout';
+import {Person} from "./Person";
+import {states} from "./utils";
 
 
 export function Stripe(props) {
@@ -17,22 +19,15 @@ class _CardForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
             isGoing: false,
+            person: new Person(),
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
+    handleChange(key, event) {
+        let person = this.state.person;
+        person[key] = event.target.value;
+        this.setState({person: person});
     }
 
     handleInputChange(event) {
@@ -70,15 +65,22 @@ class _CardForm extends React.Component {
                 <hr className="border border-dark m-0 mb-4"/>
                 <Checkout {...this.props}/>
                 {/* Name and address */}
-                <input className="my-2" style={{width:100+'%'}} type="text" placeholder="name" value={this.state.value} onChange={this.handleChange}/>
-                <input className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.value} onChange={this.handleChange}/>
                 <div className="d-flex justify-content-between">
-                    <input className="my-2 mr-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.value} onChange={this.handleChange}/>
-                    <input className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.value} onChange={this.handleChange}/>
+                    <input className="my-2 mr-2" style={{width:100+'%'}} type="text" placeholder="first name" value={this.state.person.firstName || ''} onChange={(e) => this.handleChange('firstName', e)}/>
+                    <input className="my-2 ml-2" style={{width:100+'%'}} type="text" placeholder="last name" value={this.state.person.lastName || ''} onChange={(e) => this.handleChange('lastName', e)}/>
+                </div>
+                <input className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.person.address1 || ''} onChange={(e) => this.handleChange('address1', e)}/>
+                <div className="d-flex justify-content-between">
+                    <input className="my-2 mr-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.person.address2 || ''} onChange={(e) => this.handleChange('address2', e)}/>
+                    <input className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.person.zip || ''} onChange={(e) => this.handleChange('zip', e)}/>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <input className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.value} onChange={this.handleChange}/>
-                    <input className="my-2" style={{width:20+'%'}} type="text" placeholder="state" value={this.state.value} onChange={this.handleChange}/>
+                    <input className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.person.city || ''} onChange={(e) => this.handleChange('city', e)}/>
+                    <select name="state" className="my-2" value={this.state.person.state} onChange={(e) => this.handleChange('state', e)} style={{height:'28px'}}>
+                        {states.map(state => (
+                            <option value={state}>{state}</option>
+                        ))}
+                    </select>
                 </div>
                 {/* Separator */}
                 <div className="d-flex justify-content-center">
@@ -99,7 +101,7 @@ class _CardForm extends React.Component {
                             name="isGoing"
                             type="checkbox"
                             checked={this.state.isGoing}
-                            onChange={this.handleInputChange}/>
+                            onChange={(e) => this.handleInputChange(e)}/>
                         I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>.
                     </label>
                 </div>
