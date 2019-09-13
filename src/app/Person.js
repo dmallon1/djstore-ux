@@ -1,5 +1,6 @@
 export class Person {
-    constructor(firstName, lastName, address1, address2, city, state, zip, cardToken) {
+    constructor(email, firstName, lastName, address1, address2, city, state, zip, cardToken) {
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address1 = address1;

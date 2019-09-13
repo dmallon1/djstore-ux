@@ -46,7 +46,7 @@ class _CardForm extends React.Component {
             this.props.stripe.createToken()
             .then((payload) => console.log('[token]', payload));
         }
-        // send token to backend with customer information and order information
+        // TODO send token to backend with customer information and order information
     };
 
     render() {
@@ -64,6 +64,7 @@ class _CardForm extends React.Component {
                 <h1 className="font-weight-light">checkout</h1>
                 <hr className="border border-dark m-0 mb-4"/>
                 <Checkout {...this.props}/>
+                <input className="my-2 mr-2" style={{width:100+'%'}} type="text" placeholder="email" value={this.state.person.email || ''} onChange={(e) => this.handleChange('email', e)}/>
                 {/* Name and address */}
                 <div className="d-flex justify-content-between">
                     <input className="my-2 mr-2" style={{width:100+'%'}} type="text" placeholder="first name" value={this.state.person.firstName || ''} onChange={(e) => this.handleChange('firstName', e)}/>
@@ -77,8 +78,8 @@ class _CardForm extends React.Component {
                 <div className="d-flex justify-content-between">
                     <input className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.person.city || ''} onChange={(e) => this.handleChange('city', e)}/>
                     <select name="state" className="my-2" value={this.state.person.state} onChange={(e) => this.handleChange('state', e)} style={{height:'28px'}}>
-                        {states.map(state => (
-                            <option value={state}>{state}</option>
+                        {states.map((state,i) => (
+                            <option key={i} value={state}>{state}</option>
                         ))}
                     </select>
                 </div>
