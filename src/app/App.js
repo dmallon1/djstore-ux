@@ -37,13 +37,23 @@ export class AppRouter extends React.Component {
         this.setState({chosenSize: e.target.value});
     }
 
+    // calculate total
+    get costs() {
+        let total = 0;
+        let shippingCost = 5;
+        this.state.productsInCart.map(item => total += item.product.price);
+        const tax = Number(((shippingCost + total)*.06).toFixed(2));
+        total = total + tax + shippingCost;
+        return {total, tax, shippingCost};
+    }
+
     render() {
         return (
             <Router>
                 <NavBarFunc productsInCart={this.state.productsInCart}/>
                 <div className="container">
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
-                    <Route path="/checkout" render={() => <Stripe productsInCart={this.state.productsInCart}/> }/>
+                    <Route path="/checkout" render={() => <Stripe costs={this.costs} productsInCart={this.state.productsInCart}/> }/>
                     <Route path="/:product" render={(props) => <ProductPage {...props} products={this.state.products} addToCart={(product) => this.addToCart(product)}
                         changeSize={(e) => this.changeSize(e)} chosenSize={props.chosenSize}
                     />}/>

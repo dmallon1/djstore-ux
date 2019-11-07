@@ -1,3 +1,15 @@
+export function postData(data) {
+    return fetch('http://localhost:8000/api/order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json());
+}
+
+
 export const states = [
     'AL',
     'AK',

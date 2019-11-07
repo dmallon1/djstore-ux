@@ -2,11 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 export function Checkout(props) {
-    let total = 0;
-    let shippingCost = 4.99;
-    props.productsInCart.map(item => total += item.product.price);
-    const tax = Number(((shippingCost + total)*.06).toFixed(2));
-    total = tax + shippingCost;
+    const {total, tax, shippingCost} = props.costs;
 
     return (
         <React.Fragment>
@@ -14,21 +10,20 @@ export function Checkout(props) {
             <table style={{width:100+'%'}}>
                 <tbody>
                     {props.productsInCart.map((item, i) => {
-                        total += item.product.price;
                         return (
                             <tr key={i} className="foo">
                                 <td className="p-2">[1x] <Link to={"/" + item.product.title}>{item.product.title}</Link> | {item.size}</td>
-                                <td className="p-2 text-right" style={{width: 75+'px'}}>${item.product.price}</td>
+                                <td className="p-2 text-right" style={{width: 75+'px'}}>${item.product.price.toFixed(2)}</td>
                             </tr>
                         );
                     })}
                     <tr>
                         <td className="p-2">shipping</td>
-                        <td className="p-2 text-right">${shippingCost}</td>
+                        <td className="p-2 text-right">${shippingCost.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td className="p-2">estimated tax [i] (6%)</td>
-                        <td className="p-2 text-right">${tax}</td>
+                        <td className="p-2 text-right">${tax.toFixed(2)}</td>
                     </tr>
                     <tr className="font-weight-bold">
                         <td className="p-2">total</td>
