@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 export function Checkout(props) {
     const {total, tax, shippingCost} = props.costs;
+    console.log(props.productsInCart)
 
     return (
         <React.Fragment>
@@ -12,7 +13,15 @@ export function Checkout(props) {
                     {props.productsInCart.map((item, i) => {
                         return (
                             <tr key={i} className="foo">
-                                <td className="p-2">[1x] <Link to={"/" + item.product.title}>{item.product.title}</Link> | {item.size}</td>
+                                <td className="p-2">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <Link className="align-middle" to={"/" + item.product.title}>{item.product.title}</Link>
+                                        <div className="d-flex justify-content-between">
+                                            <div>1x | {item.size}</div>
+                                            <div className="ml-2 border border-dark px-2 font-italic">edit</div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td className="p-2 text-right" style={{width: 75+'px'}}>${item.product.price.toFixed(2)}</td>
                             </tr>
                         );

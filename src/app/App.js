@@ -6,6 +6,7 @@ import logo from './pics/dj-logo.png';
 import cart from './pics/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {MyModal} from "./MyModal";
 
 
 export class AppRouter extends React.Component {
@@ -24,7 +25,9 @@ export class AppRouter extends React.Component {
             return res.json();
         }).then(data => {
             this.setState({products: data});
+            this.addToCart(data[0]);
         });
+        console.log(process.env.PUBLIC_URL);
     }
 
     addToCart(product) {
@@ -59,6 +62,7 @@ export class AppRouter extends React.Component {
                     />}/>
                     <Footer/>
                 </div>
+                <MyModal show={true}/>
             </Router>
         );
     }
