@@ -16,8 +16,12 @@ export class AppRouter extends React.Component {
             products: null,
             productsInCart: [],
             chosenSize: "xs",
+            showModal: false,
         };
     }
+
+    handleClose = () => this.setState({showModal:false});
+    handleShow = () => this.setState({showModal:true});
 
     componentDidMount() {
         // fetch all products
@@ -27,7 +31,6 @@ export class AppRouter extends React.Component {
             this.setState({products: data});
             this.addToCart(data[0]);
         });
-        console.log(process.env.PUBLIC_URL);
     }
 
     addToCart(product) {
@@ -56,13 +59,14 @@ export class AppRouter extends React.Component {
                 <NavBarFunc productsInCart={this.state.productsInCart}/>
                 <div className="container">
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
-                    <Route path="/checkout" render={() => <Stripe costs={this.costs} productsInCart={this.state.productsInCart}/> }/>
-                    <Route path="/:product" render={(props) => <ProductPage {...props} products={this.state.products} addToCart={(product) => this.addToCart(product)}
-                        changeSize={(e) => this.changeSize(e)} chosenSize={props.chosenSize}
-                    />}/>
+                    <Route path="/checkout" render={() => <Stripe costs={this.costs}
+                        productsInCart={this.state.productsInCart} handleShow={this.handleShow}/>}/>
+                    <Route path="/:product" render={(props) => <ProductPage {...props}
+                        products={this.state.products} addToCart={(product) => this.addToCart(product)}
+                        changeSize={(e) => this.changeSize(e)} chosenSize={props.chosenSize}/>}/>
                     <Footer/>
                 </div>
-                <MyModal show={true}/>
+                <MyModal showModal={this.state.showModal} handleClose={this.handleClose}/>
             </Router>
         );
     }

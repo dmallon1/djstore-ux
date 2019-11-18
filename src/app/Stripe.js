@@ -15,6 +15,9 @@ export function Stripe(props) {
 }
 
 
+/**
+ * The actual function that does shit
+ */
 class _CardForm extends React.Component {
     constructor(props) {
         super(props);
@@ -66,10 +69,10 @@ class _CardForm extends React.Component {
         let toRet = [];
         for (let i in this.props.productsInCart) {
             toRet.push({
-                "quantity": this.props.productsInCart[i].product.product_instances[0].quantity,
+                "quantity": this.props.productsInCart[i].product.product_instances[0].quantity, // this has to be the selected quantity
                 "product":this.props.productsInCart[i].product.id,
-                "size":this.props.productsInCart[i].product.product_instances[0].size,
-                "sku": this.props.productsInCart[i].product.product_instances[0].sku,
+                "size":this.props.productsInCart[i].product.product_instances[0].size, // this has to be the selected size
+                "sku": this.props.productsInCart[i].product.product_instances[0].sku, // same here
             });
         }
         return toRet;
