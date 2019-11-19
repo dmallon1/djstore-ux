@@ -15,7 +15,7 @@ export class AppRouter extends React.Component {
         this.state = {
             products: null,
             productsInCart: [],
-            chosenSize: "xs",
+            chosenSize: "s",
             showModal: false,
         };
     }
@@ -35,7 +35,10 @@ export class AppRouter extends React.Component {
 
     addToCart(product) {
         let cart = this.state.productsInCart;
-        cart.push({product: product, size: this.state.chosenSize});
+        // get the chosen size and product instance combo and add it to cart
+        const sizeId = mapping[this.state.chosenSize];
+        const productInstance = product.product_instances.find(el => el.id === sizeId);
+        cart.push({product: product, size: this.state.chosenSize, productInstance});
         this.setState({productsInCart: cart});
     }
 
@@ -124,7 +127,6 @@ function ProductPage(props) {
                     <button type="button" className="btn btn-dark mt-0" onClick={() => props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
                     <div className="select-style px-2">
                         <select onChange={(e) => props.changeSize(e)} value={props.chosenSize} className="px-2" style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
-                            <option value="xs">xs</option>
                             <option value="s">s</option>
                             <option value="m">m</option>
                             <option value="l">l</option>
@@ -195,3 +197,11 @@ function InnerStoreItem(props) {
         </React.Fragment>
     );
 }
+
+const mapping = {
+    's': 1,
+    'm': 2,
+    'l': 3,
+    'xl': 4,
+    'xxl': 5,
+};
