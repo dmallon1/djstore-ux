@@ -39,6 +39,7 @@ export class AppRouter extends React.Component {
         const sizeId = mapping[this.state.chosenSize];
         const productInstance = product.product_instances.find(el => el.id === sizeId);
         cart.push({product: product, size: this.state.chosenSize, productInstance});
+        console.log(cart);
         this.setState({productsInCart: cart});
     }
 
@@ -127,6 +128,8 @@ function ProductPage(props) {
                     <button type="button" className="btn btn-dark mt-0" onClick={() => props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
                     <div className="select-style px-2">
                         <select onChange={(e) => props.changeSize(e)} value={props.chosenSize} className="px-2" style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
+                            {/* TODO: don't hardcode these anymore, loop through
+                            all product instances and show only available  */}
                             <option value="s">s</option>
                             <option value="m">m</option>
                             <option value="l">l</option>
