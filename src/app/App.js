@@ -15,7 +15,7 @@ export class AppRouter extends React.Component {
         this.state = {
             products: null,
             productsInCart: [],
-            chosenSize: "s",
+            chosenSize: "",
             showModal: false,
         };
     }
@@ -29,22 +29,22 @@ export class AppRouter extends React.Component {
             return res.json();
         }).then(data => {
             this.setState({products: data});
-            this.addToCart(data[0]);
+            // this.addToCart(data[0]);
         });
     }
 
     addToCart(product) {
         let cart = this.state.productsInCart;
-        // get the chosen size and product instance combo and add it to cart
-        const sizeId = mapping[this.state.chosenSize];
-        const productInstance = product.product_instances.find(el => el.id === sizeId);
-        cart.push({product: product, size: this.state.chosenSize, productInstance});
+        const size = Number(this.state.chosenSize);
+
+        const productInstance = product.product_instances.find(el => el.size === size);
+        cart.push({product: product, productInstance});
         console.log(cart);
         this.setState({productsInCart: cart});
     }
 
-    changeSize(e) {
-        this.setState({chosenSize: e.target.value});
+    changeSize(id) {
+        this.setState({chosenSize: id});
     }
 
     // calculate total
@@ -111,42 +111,52 @@ function Footer() {
 }
 
 
-function ProductPage(props) {
-    const chosenProduct = props.products && props.products.find(el => el.title === props.match.params.product);
-    if (!chosenProduct) {
-        return null;
+class ProductPage extends React.Component {
+    componentDidUpdate(prevProps) {
+        console.log(this.props, prevProps)
+        // console.log(this.props.match, this.props.match.params.product !== prevProps.match.params.product, this.props.match.params, prevProps.match.params.product);
+        if (this.props.products !== prevProps.products || this.props.match.params.product !== prevProps.match.params.product) {
+            const chosenProduct = this.props.products && this.props.products.find(el => el.title === this.props.match.params.product);
+            if (chosenProduct) {
+                this.props.changeSize(chosenProduct.product_instances[0].size);
+            }
+        }
     }
 
-    return (
-        <React.Fragment>
-            <div className="product-title text-center">
-                <h1>{chosenProduct.title}</h1>
-            </div>
-            <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
-            <div className="mb-3 d-flex justify-content-between">
-                <div className="d-flex">
-                    <button type="button" className="btn btn-dark mt-0" onClick={() => props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
-                    <div className="select-style px-2">
-                        <select onChange={(e) => props.changeSize(e)} value={props.chosenSize} className="px-2" style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
-                            {/* TODO: don't hardcode these anymore, loop through
-                            all product instances and show only available  */}
-                            <option value="s">s</option>
-                            <option value="m">m</option>
-                            <option value="l">l</option>
-                            <option value="xl">xl</option>
-                            <option value="xxl">xxl</option>
-                        </select>
-                    </div>
-                </div>
+    render() {
+        const chosenProduct = this.props.products && this.props.products.find(el => el.title === this.props.match.params.product);
+        if (!chosenProduct) {
+            return null;
+        }
 
-                <p style={{fontSize: 24}}>${chosenProduct.price}</p>
-            </div>
-            {/* Product Subtitle */}
-            <div>
-                <p className="gray-color" style={{fontSize: 14}}>{chosenProduct.description}</p>
-            </div>
-        </React.Fragment>
-    );
+        return (
+            <React.Fragment>
+                <div className="product-title text-center">
+                    <h1>{chosenProduct.title}</h1>
+                </div>
+                <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
+                <div className="mb-3 d-flex justify-content-between">
+                    <div className="d-flex">
+                        <button type="button" className="btn btn-dark mt-0" onClick={() => this.props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
+                        <div className="select-style px-2">
+                            <select onChange={(e) => this.props.changeSize(e.target.value)} value={this.props.chosenSize} className="px-2"
+                                style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
+                                {chosenProduct.product_instances.map(item =>
+                                    <option key={item.id} value={item.size}>{numToSize[item.size]}</option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
+
+                    <p style={{fontSize: 24}}>${chosenProduct.price}</p>
+                </div>
+                {/* Product Subtitle */}
+                <div>
+                    <p className="gray-color" style={{fontSize: 14}}>{chosenProduct.description}</p>
+                </div>
+            </React.Fragment>
+        );
+    }
 }
 
 
@@ -201,10 +211,18 @@ function InnerStoreItem(props) {
     );
 }
 
-const mapping = {
-    's': 1,
-    'm': 2,
-    'l': 3,
-    'xl': 4,
-    'xxl': 5,
+// const mapping = {
+//     's': 1,
+//     'm': 2,
+//     'l': 3,
+//     'xl': 4,
+//     'xxl': 5,
+// };
+
+const numToSize = {
+    1: 's',
+    2: 'm',
+    3: 'l',
+    4: 'xl',
+    5: 'xxl',
 };
