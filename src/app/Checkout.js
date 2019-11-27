@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import {numToSize} from "./utils";
+
 
 export function Checkout(props) {
     const {total, tax, shippingCost} = props.costs;
@@ -16,7 +18,7 @@ export function Checkout(props) {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <Link className="align-middle" to={"/" + item.product.title}>{item.product.title}</Link>
                                         <div className="d-flex justify-content-between">
-                                            <div>1x | {item.size}</div>
+                                            <div>1x | {numToSize[item.productInstance.size]}</div>
                                             <div className="ml-2 border border-dark px-2 font-italic" onClick={props.handleShow}>edit</div>
                                         </div>
                                     </div>

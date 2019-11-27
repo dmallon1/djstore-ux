@@ -7,6 +7,7 @@ import cart from './pics/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {MyModal} from "./MyModal";
+import {numToSize} from "./utils";
 
 
 export class AppRouter extends React.Component {
@@ -15,7 +16,6 @@ export class AppRouter extends React.Component {
         this.state = {
             products: null,
             productsInCart: [],
-            chosenSize: "",
             showModal: false,
         };
     }
@@ -29,22 +29,14 @@ export class AppRouter extends React.Component {
             return res.json();
         }).then(data => {
             this.setState({products: data});
-            // this.addToCart(data[0]);
         });
     }
 
-    addToCart(product) {
+    addToCart(product, chosenSize) {
         let cart = this.state.productsInCart;
-        const size = Number(this.state.chosenSize);
-
-        const productInstance = product.product_instances.find(el => el.size === size);
+        const productInstance = product.product_instances.find(el => el.size === Number(chosenSize));
         cart.push({product: product, productInstance});
-        console.log(cart);
         this.setState({productsInCart: cart});
-    }
-
-    changeSize(id) {
-        this.setState({chosenSize: id});
     }
 
     // calculate total
@@ -66,8 +58,8 @@ export class AppRouter extends React.Component {
                     <Route path="/checkout" render={() => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow}/>}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
-                        products={this.state.products} addToCart={(product) => this.addToCart(product)}
-                        changeSize={(e) => this.changeSize(e)} chosenSize={props.chosenSize}/>}/>
+                        products={this.state.products} addToCart={(product, chosenSize) =>
+                        this.addToCart(product, chosenSize)}/>}/>
                     <Footer/>
                 </div>
                 <MyModal showModal={this.state.showModal} handleClose={this.handleClose}/>
@@ -112,15 +104,29 @@ function Footer() {
 
 
 class ProductPage extends React.Component {
-    componentDidUpdate(prevProps) {
-        console.log(this.props, prevProps)
-        // console.log(this.props.match, this.props.match.params.product !== prevProps.match.params.product, this.props.match.params, prevProps.match.params.product);
-        if (this.props.products !== prevProps.products || this.props.match.params.product !== prevProps.match.params.product) {
-            const chosenProduct = this.props.products && this.props.products.find(el => el.title === this.props.match.params.product);
-            if (chosenProduct) {
-                this.props.changeSize(chosenProduct.product_instances[0].size);
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            chosenSize: this.getInitialSize(),
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.products !== prevProps.products || this.props.match.params.product !== prevProps.match.params.product) {
+            this.setState({chosenSize: this.getInitialSize()});
+        }
+    }
+
+    changeSize(id) {
+        this.setState({chosenSize: id});
+    }
+
+    getInitialSize() {
+        const chosenProduct = this.props.products && this.props.products.find(el => el.title === this.props.match.params.product);
+        if (chosenProduct) {
+            return chosenProduct.product_instances[0].size;
+        }
+        return "";
     }
 
     render() {
@@ -137,9 +143,9 @@ class ProductPage extends React.Component {
                 <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
                 <div className="mb-3 d-flex justify-content-between">
                     <div className="d-flex">
-                        <button type="button" className="btn btn-dark mt-0" onClick={() => this.props.addToCart(chosenProduct)} style={{height:'36px'}}>add to cart</button>
+                        <button type="button" className="btn btn-dark mt-0" onClick={() => this.props.addToCart(chosenProduct, this.state.chosenSize)} style={{height:'36px'}}>add to cart</button>
                         <div className="select-style px-2">
-                            <select onChange={(e) => this.props.changeSize(e.target.value)} value={this.props.chosenSize} className="px-2"
+                            <select onChange={(e) => this.changeSize(e.target.value)} value={this.state.chosenSize} className="px-2"
                                 style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
                                 {chosenProduct.product_instances.map(item =>
                                     <option key={item.id} value={item.size}>{numToSize[item.size]}</option>
@@ -210,19 +216,3 @@ function InnerStoreItem(props) {
         </React.Fragment>
     );
 }
-
-// const mapping = {
-//     's': 1,
-//     'm': 2,
-//     'l': 3,
-//     'xl': 4,
-//     'xxl': 5,
-// };
-
-const numToSize = {
-    1: 's',
-    2: 'm',
-    3: 'l',
-    4: 'xl',
-    5: 'xxl',
-};

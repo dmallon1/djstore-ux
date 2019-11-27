@@ -62,3 +62,11 @@ export const states = [
     'WI',
     'WY'
 ];
+
+export const numToSize = {
+    1: 's',
+    2: 'm',
+    3: 'l',
+    4: 'xl',
+    5: 'xxl',
+};
