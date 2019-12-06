@@ -40,9 +40,9 @@ export class AppRouter extends React.Component {
     addToCart(product, chosenSize) {
         let cart = this.state.productsInCart;
         const productInstance = product.product_instances.find(el => el.size === Number(chosenSize));
-        const existingProd = cart.find(el => el.productInstance.id === productInstance.id);
-        if (existingProd) {
-            existingProd.count += 1;
+        const existingProduct = cart.find(el => el.productInstance.id === productInstance.id);
+        if (existingProduct) {
+            existingProduct.count += 1;
         } else {
             cart.push({product: product, productInstance, count: 1});
         }
