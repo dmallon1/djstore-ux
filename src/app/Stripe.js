@@ -60,8 +60,8 @@ class _CardForm extends React.Component {
 
                 postData(orderInfo)
                     .then(data => {
-                        this.props.history.push(`/order/${data.detail}`);
                         this.props.updateOrderNumber(data.detail);
+                        this.props.history.push(`/order/${data.detail}`);
                     })
                     .catch(error => console.error(error));
             }).catch(error => console.error(error));
