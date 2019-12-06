@@ -17,15 +17,21 @@ export class AppRouter extends React.Component {
             products: null,
             productsInCart: [],
             showModal: false,
+            selctedCartItem: null,
         };
     }
 
     handleClose = () => this.setState({showModal:false});
-    handleShow = () => this.setState({showModal:true});
+    handleShow = selctedCartItem => this.setState({showModal:true, selctedCartItem: selctedCartItem});
 
     get numProducts() {
         return this.state.productsInCart.map(b => (b.count))
             .reduce((p, c) => (p + c), 0);
+    }
+
+    get selectedItem() {
+        return this.state.productsInCart.find(el => el.productInstance.id
+            === this.state.selctedCartItem.productInstance.id);
     }
 
     componentDidMount() {
@@ -40,13 +46,37 @@ export class AppRouter extends React.Component {
     addToCart(product, chosenSize) {
         let cart = this.state.productsInCart;
         const productInstance = product.product_instances.find(el => el.size === Number(chosenSize));
-        const existingProduct = cart.find(el => el.productInstance.id === productInstance.id);
-        if (existingProduct) {
-            existingProduct.count += 1;
+        const cartItem = cart.find(el => el.productInstance.id === productInstance.id);
+        if (cartItem) {
+            cartItem.count += 1;
         } else {
             cart.push({product: product, productInstance, count: 1});
         }
         this.setState({productsInCart: cart});
+    }
+
+    increaseInstanceCount() {
+        let cart = this.state.productsInCart;
+        const cartItem = this.selectedItem;
+        if (cartItem && cartItem.count < 99) {
+            cartItem.count += 1;
+            this.setState({productsInCart: cart});
+        }
+    }
+
+    decreaseInstanceCount() {
+        let cart = this.state.productsInCart;
+        const cartItem = this.selectedItem;
+        if (cartItem && cartItem.count > 1) {
+            cartItem.count -= 1;
+            this.setState({productsInCart: cart});
+        }
+    }
+
+    deleteInstance() {
+        let cart = this.state.productsInCart;
+        cart.splice(cart.findIndex(el => el.productInstance.id === this.state.selctedCartItem.productInstance.id), 1);
+        this.setState({productsInCart: cart, showModal:false});
     }
 
     // calculate total
@@ -72,7 +102,10 @@ export class AppRouter extends React.Component {
                         this.addToCart(product, chosenSize)}/>}/>
                     <Footer/>
                 </div>
-                <MyModal showModal={this.state.showModal} handleClose={this.handleClose}/>
+                <MyModal showModal={this.state.showModal} handleClose={this.handleClose}
+                    increaseInstanceCount={() => this.increaseInstanceCount()} selctedCartItem={this.state.selctedCartItem}
+                    decreaseInstanceCount={() => this.decreaseInstanceCount()} deleteInstance={() => this.deleteInstance()}
+                />
             </Router>
         );
     }

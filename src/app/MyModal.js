@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {numToSize} from "./utils";
 
 
 export class MyModal extends React.Component {
@@ -18,35 +19,39 @@ export class MyModal extends React.Component {
     }
 
     render() {
+        if (!this.props.selctedCartItem) {
+            return null;
+        }
+
         return (
             <Modal show={this.state.showModal} onHide={this.props.handleClose}>
                 <Modal.Body>
                     <div className="d-flex justify-content-between">
-                        <h5>
-                            avocado
-                        </h5>
-                        <h5>
-                            large
-                        </h5>
+                        <Button variant="secondary" size="sm" className="m-0" onClick={this.props.deleteInstance}>
+                            delete
+                        </Button>
+                        <Button variant="primary" size="sm" className="m-0" onClick={this.props.handleClose}>
+                            done
+                        </Button>
                     </div>
-                    <div className="d-flex justify-content-center">
-                        <div className="border border-dark px-2" style={{fontSize: '30px'}}>
+                    <div className="d-flex justify-content-center py-2">
+                        <div className="border border-dark px-2" style={{fontSize: '30px'}} onClick={this.props.decreaseInstanceCount}>
                             &lt;
                         </div>
                         <div className="border border-dark px-2 mx-4 d-flex align-items-center" style={{fontSize: '24px'}}>
-                            1x
+                            {this.props.selctedCartItem.count}x
                         </div>
-                        <div className="border border-dark px-2" style={{fontSize: '30px'}}>
+                        <div className="border border-dark px-2" style={{fontSize: '30px'}} onClick={this.props.increaseInstanceCount}>
                             &gt;
                         </div>
                     </div>
                     <div className="d-flex justify-content-between">
-                        <Button variant="secondary" size="sm">
-                            delete
-                        </Button>
-                        <Button variant="primary" size="sm">
-                            update
-                        </Button>
+                        <h5 className="m-0">
+                            {this.props.selctedCartItem.product.title}
+                        </h5>
+                        <h5 className="m-0">
+                            {numToSize[this.props.selctedCartItem.productInstance.size]}
+                        </h5>
                     </div>
                 </Modal.Body>
             </Modal>

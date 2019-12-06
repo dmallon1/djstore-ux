@@ -19,7 +19,7 @@ export function Checkout(props) {
                                         <Link className="align-middle" to={"/" + item.product.title}>{item.product.title}</Link>
                                         <div className="d-flex justify-content-between">
                                             <div>{item.count}x | {numToSize[item.productInstance.size]}</div>
-                                            <div className="ml-2 border border-dark px-2 font-italic" onClick={props.handleShow}>edit</div>
+                                            <div className="ml-2 border border-dark px-2 font-italic" onClick={() => props.handleShow(item)}>edit</div>
                                         </div>
                                     </div>
                                 </td>
