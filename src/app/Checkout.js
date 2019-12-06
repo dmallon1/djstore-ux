@@ -18,12 +18,12 @@ export function Checkout(props) {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <Link className="align-middle" to={"/" + item.product.title}>{item.product.title}</Link>
                                         <div className="d-flex justify-content-between">
-                                            <div>1x | {numToSize[item.productInstance.size]}</div>
+                                            <div>{item.count}x | {numToSize[item.productInstance.size]}</div>
                                             <div className="ml-2 border border-dark px-2 font-italic" onClick={props.handleShow}>edit</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="p-2 text-right" style={{width: 75+'px'}}>${item.product.price.toFixed(2)}</td>
+                                <td className="p-2 text-right" style={{width: 75+'px'}}>${(item.product.price * item.count).toFixed(2)}</td>
                             </tr>
                         );
                     })}

@@ -23,6 +23,11 @@ export class AppRouter extends React.Component {
     handleClose = () => this.setState({showModal:false});
     handleShow = () => this.setState({showModal:true});
 
+    get numProducts() {
+        return this.state.productsInCart.map(b => (b.count))
+            .reduce((p, c) => (p + c), 0);
+    }
+
     componentDidMount() {
         // fetch all products
         fetch("http://localhost:8000/api/product/").then(res => {
@@ -35,7 +40,12 @@ export class AppRouter extends React.Component {
     addToCart(product, chosenSize) {
         let cart = this.state.productsInCart;
         const productInstance = product.product_instances.find(el => el.size === Number(chosenSize));
-        cart.push({product: product, productInstance});
+        const existingProd = cart.find(el => el.productInstance.id === productInstance.id);
+        if (existingProd) {
+            existingProd.count += 1;
+        } else {
+            cart.push({product: product, productInstance, count: 1});
+        }
         this.setState({productsInCart: cart});
     }
 
@@ -43,7 +53,7 @@ export class AppRouter extends React.Component {
     get costs() {
         let total = 0;
         let shippingCost = 5;
-        this.state.productsInCart.map(item => total += item.product.price);
+        this.state.productsInCart.map(item => total += item.product.price * item.count);
         const tax = Number(((shippingCost + total)*.06).toFixed(2));
         total = total + tax + shippingCost;
         return {total, tax, shippingCost};
@@ -52,7 +62,7 @@ export class AppRouter extends React.Component {
     render() {
         return (
             <Router>
-                <NavBarFunc productsInCart={this.state.productsInCart}/>
+                <NavBarFunc productsInCart={this.state.productsInCart} numProducts={this.numProducts}/>
                 <div className="container">
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
                     <Route path="/checkout" render={() => <Stripe costs={this.costs}
@@ -78,9 +88,9 @@ function NavBarFunc(props) {
             <Nav className="ml-auto">
                 <Link to="/checkout">
                     <div className="d-flex">
-                        {props.productsInCart.length > 0 &&
+                        {props.numProducts > 0 &&
                             <h4 className="m-0 mr-2"><span className="badge badge-secondary">
-                                {props.productsInCart.length}</span></h4>
+                                {props.numProducts}</span></h4>
                         }
                         <img src={cart} height={30} alt="cart"/>
                     </div>
