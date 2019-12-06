@@ -6,6 +6,7 @@ import logo from './pics/dj-logo.png';
 import cart from './pics/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {MyModal} from "./MyModal";
 import {numToSize} from "./utils";
 
@@ -18,15 +19,17 @@ export class AppRouter extends React.Component {
             productsInCart: [],
             showModal: false,
             selctedCartItem: null,
+            orderNumber: null,
         };
     }
 
     handleClose = () => this.setState({showModal:false});
     handleShow = selctedCartItem => this.setState({showModal:true, selctedCartItem: selctedCartItem});
+    updateOrderNumber = num => this.setState({orderNumber: num});
 
     get numProducts() {
-        return this.state.productsInCart.map(b => (b.count))
-            .reduce((p, c) => (p + c), 0);
+        return this.state.productsInCart.map(b => b.count)
+            .reduce((p, c) => p + c, 0);
     }
 
     get selectedItem() {
@@ -95,8 +98,10 @@ export class AppRouter extends React.Component {
                 <NavBarFunc productsInCart={this.state.productsInCart} numProducts={this.numProducts}/>
                 <div className="container">
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
-                    <Route path="/checkout" render={() => <Stripe costs={this.costs}
-                        productsInCart={this.state.productsInCart} handleShow={this.handleShow}/>}/>
+                    <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
+                        productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
+                        updateOrderNumber={this.updateOrderNumber}/>}/>
+                    <Route path="/order" render={(props) => <OrderPage orderNumber={this.state.orderNumber} {...props} />}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
                         this.addToCart(product, chosenSize)}/>}/>
@@ -257,5 +262,20 @@ function InnerStoreItem(props) {
                 </div>
             }
         </React.Fragment>
+    );
+}
+
+function OrderPage(props) {
+    if (!props.orderNumber) {
+        return <Redirect to="/"/>;
+    }
+
+    return (
+        <div>
+            <h1>Order Success!</h1>
+            <div>
+                Order Number: {props.orderNumber}
+            </div>
+        </div>
     );
 }
