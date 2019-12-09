@@ -44,6 +44,7 @@ export class AppRouter extends React.Component {
         }).then(data => {
             this.setState({products: data});
         });
+        console.log(sessionStorage.getItem('cart').split('|'));
     }
 
     addToCart(product, chosenSize) {
@@ -56,6 +57,14 @@ export class AppRouter extends React.Component {
             cart.push({productInstance, count: 1});
         }
         this.setState({productsInCart: cart});
+        this.updateSession(cart);
+    }
+
+    updateSession(cart) {
+        let toSet = "";
+        cart.forEach((item, i) => toSet += `${item.productInstance.id},${item.count}${i !== cart.length-1 ? `|` : `` }` )
+        sessionStorage.setItem('cart', toSet);
+        console.log(sessionStorage)
     }
 
     increaseInstanceCount() {
@@ -64,6 +73,7 @@ export class AppRouter extends React.Component {
         if (cartItem && cartItem.count < 99) {
             cartItem.count += 1;
             this.setState({productsInCart: cart});
+            this.updateSession(cart);
         }
     }
 
@@ -73,6 +83,7 @@ export class AppRouter extends React.Component {
         if (cartItem && cartItem.count > 1) {
             cartItem.count -= 1;
             this.setState({productsInCart: cart});
+            this.updateSession(cart);
         }
     }
 
@@ -80,6 +91,7 @@ export class AppRouter extends React.Component {
         let cart = this.state.productsInCart;
         cart.splice(cart.findIndex(el => el.productInstance.id === this.state.selctedCartItem.productInstance.id), 1);
         this.setState({productsInCart: cart, showModal:false});
+        this.updateSession(cart);
     }
 
     // calculate total
