@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {numToSize} from "./utils";
+import {numToSize, getItem} from "./utils";
 
 
 export function Checkout(props) {
@@ -12,18 +12,19 @@ export function Checkout(props) {
             <table style={{width:100+'%'}}>
                 <tbody>
                     {props.productsInCart.map((item, i) => {
+                        const currProduct = getItem(props.products, item.productInstance.product);
                         return (
                             <tr key={i} className="foo">
                                 <td className="p-2">
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <Link className="align-middle" to={"/" + item.product.title}>{item.product.title}</Link>
+                                        <Link className="align-middle" to={"/" + currProduct.title}>{currProduct.title}</Link>
                                         <div className="d-flex justify-content-between">
                                             <div>{item.count}x | {numToSize[item.productInstance.size]}</div>
                                             <div className="ml-2 border border-dark px-2 font-italic" onClick={() => props.handleShow(item)}>edit</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="p-2 text-right" style={{width: 75+'px'}}>${(item.product.price * item.count).toFixed(2)}</td>
+                                <td className="p-2 text-right" style={{width: 75+'px'}}>${(currProduct.price * item.count).toFixed(2)}</td>
                             </tr>
                         );
                     })}

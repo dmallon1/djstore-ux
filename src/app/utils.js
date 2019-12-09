@@ -63,6 +63,7 @@ export const states = [
     'WY'
 ];
 
+
 export const numToSize = {
     1: 's',
     2: 'm',
@@ -70,3 +71,8 @@ export const numToSize = {
     4: 'xl',
     5: 'xxl',
 };
+
+
+export function getItem(items, id) {
+    return items.find(el => el.id === id);
+}

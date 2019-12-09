@@ -73,7 +73,7 @@ class _CardForm extends React.Component {
         for (let i in this.props.productsInCart) {
             toRet.push({
                 "quantity": this.props.productsInCart[i].count,
-                "product":this.props.productsInCart[i].product.id,
+                "product":this.props.productsInCart[i].productInstance.product,
                 "size":this.props.productsInCart[i].productInstance.size,
                 "sku": this.props.productsInCart[i].productInstance.sku,
             });

@@ -8,14 +8,14 @@ import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {Redirect} from "react-router-dom";
 import {MyModal} from "./MyModal";
-import {numToSize} from "./utils";
+import {numToSize, getItem} from "./utils";
 
 
 export class AppRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: null,
+            products: [],
             productsInCart: [],
             showModal: false,
             selctedCartItem: null,
@@ -53,7 +53,7 @@ export class AppRouter extends React.Component {
         if (cartItem) {
             cartItem.count += 1;
         } else {
-            cart.push({product: product, productInstance, count: 1});
+            cart.push({productInstance, count: 1});
         }
         this.setState({productsInCart: cart});
     }
@@ -86,7 +86,7 @@ export class AppRouter extends React.Component {
     get costs() {
         let total = 0;
         let shippingCost = 5;
-        this.state.productsInCart.map(item => total += item.product.price * item.count);
+        this.state.productsInCart.map(item => total += getItem(this.state.products, item.productInstance) * item.count);
         const tax = Number(((shippingCost + total)*.06).toFixed(2));
         total = total + tax + shippingCost;
         return {total, tax, shippingCost};
@@ -100,7 +100,7 @@ export class AppRouter extends React.Component {
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
                     <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
-                        updateOrderNumber={this.updateOrderNumber}/>}/>
+                        updateOrderNumber={this.updateOrderNumber} products={this.state.products}/>}/>
                     <Route path="/order" render={(props) => <OrderPage orderNumber={this.state.orderNumber} {...props} />}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
@@ -110,7 +110,7 @@ export class AppRouter extends React.Component {
                 <MyModal showModal={this.state.showModal} handleClose={this.handleClose}
                     increaseInstanceCount={() => this.increaseInstanceCount()} selctedCartItem={this.state.selctedCartItem}
                     decreaseInstanceCount={() => this.decreaseInstanceCount()} deleteInstance={() => this.deleteInstance()}
-                />
+                    products={this.state.products}/>
             </Router>
         );
     }

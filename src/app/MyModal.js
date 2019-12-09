@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import {numToSize} from "./utils";
+import {numToSize, getItem} from "./utils";
 
 
 export class MyModal extends React.Component {
@@ -47,7 +47,7 @@ export class MyModal extends React.Component {
                     </div>
                     <div className="d-flex justify-content-between">
                         <h5 className="m-0">
-                            {this.props.selctedCartItem.product.title}
+                            {getItem(this.props.products, this.props.selctedCartItem.productInstance.product).title}
                         </h5>
                         <h5 className="m-0">
                             {numToSize[this.props.selctedCartItem.productInstance.size]}
