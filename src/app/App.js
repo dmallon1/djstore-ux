@@ -38,26 +38,24 @@ export class AppRouter extends React.Component {
     }
 
     componentDidMount() {
-        // fetch all products
-        fetch("http://localhost:8000/api/product/").then(res => {
-            return res.json();
-        }).then(data => {
-            this.setState({products: data});
-        });
-        fetch("http://localhost:8000/api/product-instance/").then(res => {
-            return res.json();
-        }).then(data => {
+        const urls = ["http://localhost:8000/api/product/",
+            "http://localhost:8000/api/product-instance/"];
+
+        const promises = urls.map(url => fetch(url).then(res => res.json()));
+        Promise.all(promises).then(data => {
+            let toUpdate = {products: data[0], productInstances: data[1]};
             const savedCart = sessionStorage.getItem('cart');
             if (savedCart) {
                 let cart = [];
                 savedCart.split('|').forEach(item => {
                     const productInstanceId = Number(item.split(',')[0]);
                     const count = Number(item.split(',')[1]);
-                    const productInstance = data.find(el => el.id === productInstanceId);
+                    const productInstance = data[1].find(el => el.id === productInstanceId);
                     cart.push({productInstance, count});
                 });
-                this.setState({productsInCart: cart, productInstances: data});
+                toUpdate['productsInCart'] = cart;
             }
+            this.setState({...toUpdate});
         });
     }
 
@@ -111,7 +109,11 @@ export class AppRouter extends React.Component {
     get costs() {
         let total = 0;
         let shippingCost = 5;
-        this.state.productsInCart.map(item => total += getItem(this.state.products, item.productInstance) * item.count);
+        this.state.productsInCart.map(item => {
+            const product = getItem(this.state.products, item.productInstance.product);
+            total += product.price * item.count;
+            return total;
+        });
         const tax = Number(((shippingCost + total)*.06).toFixed(2));
         total = total + tax + shippingCost;
         return {total, tax, shippingCost};
