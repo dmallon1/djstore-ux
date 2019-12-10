@@ -49,6 +49,7 @@ class _CardForm extends React.Component {
             this.props.stripe.createToken().then(payload => {
                 if (payload.error) {
                     // write error somewhere
+                    console.log(payload.error);
                     return;
                 }
                 console.log(payload);
@@ -62,6 +63,7 @@ class _CardForm extends React.Component {
                     .then(data => {
                         this.props.updateOrderNumber(data.detail);
                         this.props.history.push(`/order/${data.detail}`);
+                        this.props.resetCart();
                     })
                     .catch(error => console.error(error));
             }).catch(error => console.error(error));

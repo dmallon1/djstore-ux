@@ -26,6 +26,10 @@ export class AppRouter extends React.Component {
     handleClose = () => this.setState({showModal:false});
     handleShow = selctedCartItem => this.setState({showModal:true, selctedCartItem: selctedCartItem});
     updateOrderNumber = num => this.setState({orderNumber: num});
+    resetCart = () => {
+        this.setState({productsInCart: []});
+        this.updateSession([]);
+    };
 
     get numProducts() {
         return this.state.productsInCart.map(b => b.count)
@@ -127,7 +131,7 @@ export class AppRouter extends React.Component {
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
                     <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
-                        updateOrderNumber={this.updateOrderNumber} products={this.state.products}/>}/>
+                        updateOrderNumber={this.updateOrderNumber} products={this.state.products} resetCart={this.resetCart}/>}/>
                     <Route path="/order" render={(props) => <OrderPage orderNumber={this.state.orderNumber} {...props} />}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
