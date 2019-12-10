@@ -6,6 +6,10 @@ import {numToSize, getItem} from "./utils";
 export function Checkout(props) {
     const {total, tax, shippingCost} = props.costs;
 
+    if (!props.products) {
+        return null;
+    }
+
     return (
         <React.Fragment>
             {/* Table */}

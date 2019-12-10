@@ -74,5 +74,7 @@ export const numToSize = {
 
 
 export function getItem(items, id) {
-    return items.find(el => el.id === id);
+    if (items && items.length) {
+        return items.find(el => el.id === id);
+    }
 }

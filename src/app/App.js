@@ -15,7 +15,7 @@ export class AppRouter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: [],
+            products: null,
             productsInCart: [],
             showModal: false,
             selctedCartItem: null,
@@ -44,7 +44,21 @@ export class AppRouter extends React.Component {
         }).then(data => {
             this.setState({products: data});
         });
-        console.log(sessionStorage.getItem('cart').split('|'));
+        fetch("http://localhost:8000/api/product-instance/").then(res => {
+            return res.json();
+        }).then(data => {
+            const savedCart = sessionStorage.getItem('cart');
+            if (savedCart) {
+                let cart = [];
+                savedCart.split('|').forEach(item => {
+                    const productInstanceId = Number(item.split(',')[0]);
+                    const count = Number(item.split(',')[1]);
+                    const productInstance = data.find(el => el.id === productInstanceId);
+                    cart.push({productInstance, count});
+                });
+                this.setState({productsInCart: cart, productInstances: data});
+            }
+        });
     }
 
     addToCart(product, chosenSize) {
@@ -64,7 +78,6 @@ export class AppRouter extends React.Component {
         let toSet = "";
         cart.forEach((item, i) => toSet += `${item.productInstance.id},${item.count}${i !== cart.length-1 ? `|` : `` }` )
         sessionStorage.setItem('cart', toSet);
-        console.log(sessionStorage)
     }
 
     increaseInstanceCount() {
