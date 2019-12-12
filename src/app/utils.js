@@ -6,7 +6,7 @@ export function postData(data) {
         },
         body: JSON.stringify(data),
     })
-    .then(response => response.json());
+    .then(r => r.json().then(data => ({data: data, status: r.status})));
 }
 
 

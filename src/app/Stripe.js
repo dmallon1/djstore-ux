@@ -59,14 +59,16 @@ class _CardForm extends React.Component {
                 orderInfo.total = this.props.costs.total;
                 orderInfo.product_instances = this.getProductDict();
 
-                postData(orderInfo)
-                    .then(data => {
+                postData(orderInfo).then(({data, status}) => {
+                    if (status !== 200) {
+                        console.log(data);
+                    } else {
                         this.props.updateOrderNumber(data.detail);
                         this.props.history.push(`/order/${data.detail}`);
                         this.props.resetCart();
-                    })
-                    .catch(error => console.error(error));
-            }).catch(error => console.error(error));
+                    }
+                });
+            });
         }
     };
 
