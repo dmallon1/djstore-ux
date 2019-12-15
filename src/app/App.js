@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {Redirect} from "react-router-dom";
 import {MyModal} from "./MyModal";
 import {numToSize, getItem} from "./utils";
+import {SizeChart} from "./Sizing";
 
 
 export class AppRouter extends React.Component {
@@ -133,6 +134,7 @@ export class AppRouter extends React.Component {
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
                         updateOrderNumber={this.updateOrderNumber} products={this.state.products} resetCart={this.resetCart}/>}/>
                     <Route path="/order" render={(props) => <OrderPage orderNumber={this.state.orderNumber} {...props} />}/>
+                    <Route path="/sizing" render={SizeChart}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
                         this.addToCart(product, chosenSize)}/>}/>
