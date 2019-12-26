@@ -8,7 +8,7 @@ import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {Redirect} from "react-router-dom";
 import {MyModal} from "./MyModal";
-import {numToSize, getItem} from "./utils";
+import {numToSize, getItem, innerUrl} from "./utils";
 import {SizeChart} from "./Sizing";
 
 
@@ -43,8 +43,8 @@ export class AppRouter extends React.Component {
     }
 
     componentDidMount() {
-        const urls = ["http://localhost:8000/api/product/",
-            "http://localhost:8000/api/product-instance/"];
+        const urls = [`http://${innerUrl}/api/product/`,
+            `http://${innerUrl}/api/product-instance/`];
 
         const promises = urls.map(url => fetch(url).then(res => res.json()));
         Promise.all(promises).then(data => {

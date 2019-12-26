@@ -1,5 +1,8 @@
+export const innerUrl = process.env.NODE_ENV === "development" ? "localhost:8000" : "api.danmallon.com";
+
+
 export function postData(data) {
-    return fetch('http://localhost:8000/api/order/', {
+    return fetch(`http://${innerUrl}/api/order/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
