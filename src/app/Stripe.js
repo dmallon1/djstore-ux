@@ -103,7 +103,7 @@ class _CardForm extends React.Component {
                 <h1 className="font-weight-light">checkout</h1>
                 <hr className="border border-dark m-0 mb-4"/>
                 <Checkout {...this.props}/>
-                <input required className="my-2 mr-2" style={{width:100+'%'}} type="email" placeholder="email" value={this.state.order.email || ''} onChange={(e) => this.handleChange('email', e)}/>
+                <input required className="mb-2 mr-2" style={{width:100+'%'}} type="email" placeholder="email" value={this.state.order.email || ''} onChange={(e) => this.handleChange('email', e)}/>
                 {/* Name and address */}
                 <div className="d-flex justify-content-between">
                     <input required className="my-2 mr-2" style={{width:100+'%'}} type="text" placeholder="first name" value={this.state.order.first_name || ''} onChange={(e) => this.handleChange('first_name', e)}/>

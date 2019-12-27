@@ -176,7 +176,7 @@ function Footer() {
     return (
         <div className="my-5 d-flex justify-content-around border border-dark" style={{fontSize:12+'px'}}>
             <Link to="/sizing"><div className="p-3">sizing</div></Link>
-            <Link to="/faq"><div className="p-3">faq</div></Link>
+            {/* <Link to="/faq"><div className="p-3">faq</div></Link> */}
             <Link to="/terms"><div className="p-3">terms</div></Link>
             <Link to="/privacy"><div className="p-3">privacy</div></Link>
         </div>
@@ -218,11 +218,10 @@ class ProductPage extends React.Component {
 
         return (
             <React.Fragment>
-                <div className="product-title text-center">
-                    <h1>{chosenProduct.title}</h1>
-                </div>
+                <h1 className="font-weight-light">{chosenProduct.title}</h1>
+                <hr className="border border-dark m-0"/>
                 <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
-                <div className="mb-3 d-flex justify-content-between">
+                <div className="my-4 d-flex justify-content-between">
                     <div className="d-flex">
                         <button type="button" className="btn btn-dark mt-0" onClick={() => this.props.addToCart(chosenProduct, this.state.chosenSize)} style={{height:'36px'}}>add to cart</button>
                         <div className="select-style px-2">
@@ -288,7 +287,7 @@ function StoreItem(props) {
 function InnerStoreItem(props) {
     return (
         <React.Fragment>
-            <img className="border border-dark my-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
+            <img className="border border-dark mt-4" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
             {props.showPrice &&
                 <div className="bottom-right font-weight-light">
                     ${props.price}
