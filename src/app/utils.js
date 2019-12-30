@@ -1,4 +1,4 @@
-export const innerUrl = process.env.NODE_ENV === "development" ? "localhost:8000" : "api.danmallon.com";
+export const innerUrl = process.env.NODE_ENV === "development" ? "localhost:8000" : "store.danmallon.com";
 
 
 export function postData(data) {
