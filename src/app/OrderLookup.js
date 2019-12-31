@@ -7,7 +7,6 @@ export class OrderLookup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showInput: props.showInput || true, // remove true when done
             orderNumber: '',
             zipCode: '',
             orderInfo: null,
@@ -53,6 +52,10 @@ export class OrderLookup extends React.Component {
     }
 
     render() {
+        if (!this.props.products) {
+            return null;
+        }
+
         return (
             <div className="bar">
                 <h1 className="font-weight-light mb-1">order lookup</h1>
@@ -98,10 +101,6 @@ export class OrderLookup extends React.Component {
                             <tbody>
                                 {this.state.orderInfo.product_instances.map((item, i) => {
                                     const currProduct = getItem(this.props.products, item.product);
-                                    if (!currProduct) {
-                                        return null;
-                                    }
-
                                     return (
                                         <tr key={i}>
                                             <td className="p-2">
