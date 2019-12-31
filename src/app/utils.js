@@ -11,7 +11,8 @@ export function postData(data, lookup=false) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        },
+            'X-CSRFTOKEN': getCookie("csrftoken"),
+	},
         body: JSON.stringify(data),
     })
     .then(r => r.json().then(data => ({data: data, status: r.status})));
@@ -87,8 +88,17 @@ export function getItem(items, id) {
     }
 }
 
+
 export const statusEnum = {
     'p': 'processing',
     's': 'shipped',
     'd': 'delivered',
 };
+
+
+function getCookie(name) {
+    const value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
