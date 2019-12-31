@@ -6,10 +6,10 @@ import logo from './pics/dj-logo.png';
 import cart from './pics/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {Redirect} from "react-router-dom";
 import {MyModal} from "./MyModal";
 import {numToSize, getItem, innerUrl} from "./utils";
 import {SizeChart} from "./Sizing";
+import {OrderLookup} from "./OrderLookup";
 
 
 export class AppRouter extends React.Component {
@@ -133,7 +133,7 @@ export class AppRouter extends React.Component {
                     <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
                         updateOrderNumber={this.updateOrderNumber} products={this.state.products} resetCart={this.resetCart}/>}/>
-                    <Route path="/order" render={(props) => <OrderPage orderNumber={this.state.orderNumber} {...props} />}/>
+                    <Route path="/order" render={(props) => <OrderLookup orderNumber={this.state.orderNumber} products={this.state.products} {...props} />}/>
                     <Route path="/sizing" render={SizeChart}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
@@ -175,6 +175,7 @@ function NavBarFunc(props) {
 function Footer() {
     return (
         <div className="my-5 d-flex justify-content-around border border-dark" style={{fontSize:12+'px'}}>
+            <Link to="/order"><div className="p-3">order lookup</div></Link>
             <Link to="/sizing"><div className="p-3">sizing</div></Link>
             {/* <Link to="/faq"><div className="p-3">faq</div></Link> */}
             <Link to="/terms"><div className="p-3">terms</div></Link>
@@ -294,20 +295,5 @@ function InnerStoreItem(props) {
                 </div>
             }
         </React.Fragment>
-    );
-}
-
-function OrderPage(props) {
-    if (!props.orderNumber) {
-        return <Redirect to="/"/>;
-    }
-
-    return (
-        <div>
-            <h1>Order Success!</h1>
-            <div>
-                Order Number: {props.orderNumber}
-            </div>
-        </div>
     );
 }

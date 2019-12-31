@@ -65,9 +65,12 @@ class _CardForm extends React.Component {
                 postData(orderInfo).then(({data, status}) => {
                     if (status !== 200) {
                         console.log(data);
+                        this.setState({errorMsg: data.detail})
                     } else {
                         this.props.updateOrderNumber(data.detail);
-                        this.props.history.push(`/order/${data.detail}`);
+                        sessionStorage.setItem("order_id", data.detail);
+                        sessionStorage.setItem("zip_code", orderInfo.zip_code);
+                        this.props.history.push(`/order`);
                         this.props.resetCart();
                     }
                 });
@@ -112,7 +115,7 @@ class _CardForm extends React.Component {
                 <input required className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.order.address1 || ''} onChange={(e) => this.handleChange('address1', e)}/>
                 <div className="d-flex justify-content-between">
                     <input className="my-2 mr-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.order.address2 || ''} onChange={(e) => this.handleChange('address2', e)}/>
-                    <input required className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.order.zip || ''} onChange={(e) => this.handleChange('zip', e)}/>
+                    <input required className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.order.zip_code || ''} onChange={(e) => this.handleChange('zip_code', e)}/>
                 </div>
                 <div className="d-flex justify-content-between">
                     <input required className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.order.city || ''} onChange={(e) => this.handleChange('city', e)}/>
@@ -134,10 +137,6 @@ class _CardForm extends React.Component {
                     </Alert>
                 }
                 <CardElement
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    onReady={handleReady}
                     {...createOptions(this.props.fontSize)}
                 />
                 <div className="float-right" style={{fontSize: '10px'}}>payments handled by <a href="https://stripe.com/" target="_blank" rel="noopener noreferrer">stripe</a></div><br/>
@@ -174,18 +173,6 @@ class MyStoreCheckout extends React.Component {
     }
 }
 
-const handleBlur = () => {
-    console.log('[blur]');
-};
-const handleChange = (change) => {
-    console.log('[change]', change);
-};
-const handleFocus = () => {
-    console.log('[focus]');
-};
-const handleReady = () => {
-    console.log('[ready]');
-};
 
 const createOptions = (fontSize, padding) => {
     return {

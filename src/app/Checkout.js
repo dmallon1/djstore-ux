@@ -28,13 +28,13 @@ export function Checkout(props) {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="p-2 text-right" style={{width: 75+'px'}}>${(currProduct.price * item.count).toFixed(2)}</td>
+                                <td className="p-2 text-right" style={{width: 75+'px'}}>${(currProduct.price * item.count)}</td>
                             </tr>
                         );
                     })}
                     <tr>
                         <td className="p-2">shipping</td>
-                        <td className="p-2 text-right">${shippingCost.toFixed(2)}</td>
+                        <td className="p-2 text-right">${shippingCost}</td>
                     </tr>
                     <tr>
                         <td className="p-2">estimated tax [i] (6%)</td>

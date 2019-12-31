@@ -1,8 +1,13 @@
 export const innerUrl = process.env.NODE_ENV === "development" ? "localhost:8000" : "store.danmallon.com";
 
 
-export function postData(data) {
-    return fetch(`http://${innerUrl}/api/order/`, {
+export function postData(data, lookup=false) {
+    let endUrl = 'order';
+    if (lookup) {
+        endUrl = 'order-lookup';
+    }
+
+    return fetch(`http://${innerUrl}/api/${endUrl}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -81,3 +86,9 @@ export function getItem(items, id) {
         return items.find(el => el.id === id);
     }
 }
+
+export const statusEnum = {
+    'p': 'processing',
+    's': 'shipped',
+    'd': 'delivered',
+};
