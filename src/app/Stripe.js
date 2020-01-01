@@ -70,7 +70,7 @@ class _CardForm extends React.Component {
                         this.props.updateOrderNumber(data.detail);
                         sessionStorage.setItem("order_id", data.detail);
                         sessionStorage.setItem("zip_code", orderInfo.zip_code);
-                        this.props.history.push(`/order`);
+                        this.props.history.push(`/order-lookup`);
                         this.props.resetCart();
                     }
                 });
