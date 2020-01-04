@@ -99,15 +99,16 @@ export class OrderLookup extends React.Component {
 
                         <table className="mb-3" style={{width:100+'%'}}>
                             <tbody>
-                                {this.state.orderInfo.product_instances.map((item, i) => {
-                                    const currProduct = getItem(this.props.products, item.product);
+                                {this.state.orderInfo.cart_product_instances.map((item, i) => {
+                                    const productInstance = this.props.productInstances.find(el => el.id === item.product_instance);
+                                    const currProduct = getItem(this.props.products, productInstance.product);
                                     return (
                                         <tr key={i}>
                                             <td className="p-2">
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <Link className="align-middle" to={"/" + currProduct.title}>{currProduct.title}</Link>
                                                     <div className="d-flex justify-content-between">
-                                                        <div>{item.quantity}x | {item.size}</div>
+                                                        <div>{item.quantity}x | {productInstance.size}</div>
                                                     </div>
                                                 </div>
                                             </td>

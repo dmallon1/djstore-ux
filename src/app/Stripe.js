@@ -60,7 +60,7 @@ class _CardForm extends React.Component {
                 orderInfo.card_token = payload.token.id;
                 orderInfo.captcha_token = 1;
                 orderInfo.total = this.props.costs.total;
-                orderInfo.product_instances = this.getProductDict();
+                orderInfo.cart_product_instances = this.getProductDict();
 
                 postData(orderInfo).then(({data, status}) => {
                     if (status !== 200) {
@@ -83,9 +83,7 @@ class _CardForm extends React.Component {
         for (let i in this.props.productsInCart) {
             toRet.push({
                 "quantity": this.props.productsInCart[i].count,
-                "product":this.props.productsInCart[i].productInstance.product,
-                "size":this.props.productsInCart[i].productInstance.size,
-                "sku": this.props.productsInCart[i].productInstance.sku,
+                "product_instance":this.props.productsInCart[i].productInstance.id,
             });
         }
         return toRet;

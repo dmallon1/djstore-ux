@@ -17,6 +17,7 @@ export class AppRouter extends React.Component {
         super(props);
         this.state = {
             products: null,
+            productInstances: null,
             productsInCart: [],
             showModal: false,
             selctedCartItem: null,
@@ -133,7 +134,9 @@ export class AppRouter extends React.Component {
                     <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}
                         updateOrderNumber={this.updateOrderNumber} products={this.state.products} resetCart={this.resetCart}/>}/>
-                    <Route path="/order-lookup" render={(props) => <OrderLookup orderNumber={this.state.orderNumber} products={this.state.products} {...props} />}/>
+                    <Route path="/order-lookup" render={(props) => <OrderLookup
+                        orderNumber={this.state.orderNumber} products={this.state.products}
+                        productInstances={this.state.productInstances} {...props} />}/>
                     <Route path="/sizing" render={SizeChart}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>

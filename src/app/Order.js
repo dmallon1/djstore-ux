@@ -1,5 +1,5 @@
 export class Order {
-    constructor(email, first_name, last_name, address1, address2, city, state, zip_code, card_token, captcha_token, total, product_instances) {
+    constructor(email, first_name, last_name, address1, address2, city, state, zip_code, card_token, captcha_token, total, cart_product_instances) {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -11,6 +11,6 @@ export class Order {
         this.card_token = card_token;
         this.captcha_token = captcha_token;
         this.total = total;
-        this.product_instances = product_instances;
+        this.cart_product_instances = cart_product_instances;
     }
 };
