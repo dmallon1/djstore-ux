@@ -7,7 +7,7 @@ import cart from './pics/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {MyModal} from "./MyModal";
-import {numToSize, getItem, innerUrl} from "./utils";
+import {getItem, innerUrl} from "./utils";
 import {SizeChart} from "./Sizing";
 import {OrderLookup} from "./OrderLookup";
 
@@ -66,7 +66,7 @@ export class AppRouter extends React.Component {
 
     addToCart(product, chosenSize) {
         let cart = this.state.productsInCart;
-        const productInstance = product.product_instances.find(el => el.size === Number(chosenSize));
+        const productInstance = product.product_instances.find(el => el.size === chosenSize);
         const cartItem = cart.find(el => el.productInstance.id === productInstance.id);
         if (cartItem) {
             cartItem.count += 1;
@@ -199,8 +199,8 @@ class ProductPage extends React.Component {
         }
     }
 
-    changeSize(id) {
-        this.setState({chosenSize: id});
+    changeSize(size) {
+        this.setState({chosenSize: size});
     }
 
     getInitialSize() {
@@ -228,8 +228,8 @@ class ProductPage extends React.Component {
                         <div className="select-style px-2">
                             <select onChange={(e) => this.changeSize(e.target.value)} value={this.state.chosenSize} className="px-2"
                                 style={{color:'white', backgroundColor:'black', height: '36px', fontSize: 24}}>
-                                {chosenProduct.product_instances.map(item =>
-                                    <option key={item.id} value={item.size}>{numToSize[item.size]}</option>
+                                {chosenProduct.product_instances.map((item, i) =>
+                                    <option key={i} value={item.size}>{item.size}</option>
                                 )}
                             </select>
                         </div>

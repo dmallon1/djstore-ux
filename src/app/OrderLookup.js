@@ -1,5 +1,5 @@
 import React from "react";
-import {postData, statusEnum, getItem, numToSize} from "./utils";
+import {postData, statusEnum, getItem} from "./utils";
 import {Link} from "react-router-dom";
 
 
@@ -107,7 +107,7 @@ export class OrderLookup extends React.Component {
                                                 <div className="d-flex justify-content-between align-items-center">
                                                     <Link className="align-middle" to={"/" + currProduct.title}>{currProduct.title}</Link>
                                                     <div className="d-flex justify-content-between">
-                                                        <div>{item.quantity}x | {numToSize[item.size]}</div>
+                                                        <div>{item.quantity}x | {item.size}</div>
                                                     </div>
                                                 </div>
                                             </td>

@@ -73,15 +73,6 @@ export const states = [
 ];
 
 
-export const numToSize = {
-    1: 's',
-    2: 'm',
-    3: 'l',
-    4: 'xl',
-    5: 'xxl',
-};
-
-
 export function getItem(items, id) {
     if (items && items.length) {
         return items.find(el => el.id === id);

@@ -65,7 +65,7 @@ class _CardForm extends React.Component {
                 postData(orderInfo).then(({data, status}) => {
                     if (status !== 200) {
                         console.log(data);
-                        this.setState({errorMsg: data.detail})
+                        this.setState({errorMsg: data.detail});
                     } else {
                         this.props.updateOrderNumber(data.detail);
                         sessionStorage.setItem("order_id", data.detail);
@@ -73,7 +73,7 @@ class _CardForm extends React.Component {
                         this.props.history.push(`/order-lookup`);
                         this.props.resetCart();
                     }
-                });
+                }).catch(res => this.setState({errorMsg: 'error: please try again later'}));
             });
         }
     };

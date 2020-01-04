@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {numToSize, getItem} from "./utils";
+import {getItem} from "./utils";
 
 
 export function Checkout(props) {
@@ -23,7 +23,7 @@ export function Checkout(props) {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <Link className="align-middle" to={"/" + currProduct.title}>{currProduct.title}</Link>
                                         <div className="d-flex justify-content-between">
-                                            <div>{item.count}x | {numToSize[item.productInstance.size]}</div>
+                                            <div>{item.count}x | {item.productInstance.size}</div>
                                             <div className="ml-2 border border-dark px-2 font-italic" onClick={() => props.handleShow(item)}>edit</div>
                                         </div>
                                     </div>
