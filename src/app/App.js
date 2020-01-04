@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import logo from './pics/dj-logo.png';
-import cart from './pics/cart.png';
+// import logo from './img/dj-logo.png';
+// import cart from './img/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {MyModal} from "./MyModal";
@@ -154,6 +154,8 @@ export class AppRouter extends React.Component {
 
 
 function NavBarFunc(props) {
+    const logo = "/img/dj-logo.png";
+    const cart = "/img/cart.png";
     return (
         <Navbar>
             <Link to="/">
