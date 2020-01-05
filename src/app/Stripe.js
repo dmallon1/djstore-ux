@@ -94,7 +94,7 @@ class _CardForm extends React.Component {
             return (
                 <React.Fragment>
                     <h1 className="font-weight-light">checkout</h1>
-                    <hr className="border border-dark m-0 mb-4"/>
+                    <hr className="border border-dark m-0 mb-2"/>
                     <p>No items in cart. Add one <Link to={"/"}>here</Link>.</p>
                 </React.Fragment>
             );
@@ -102,7 +102,7 @@ class _CardForm extends React.Component {
         return (
             <form className="bar" onSubmit={this.handleSubmitStripe}>
                 <h1 className="font-weight-light">checkout</h1>
-                <hr className="border border-dark m-0 mb-4"/>
+                <hr className="border border-dark m-0 mb-3"/>
                 <Checkout {...this.props}/>
                 <input required className="mb-2 mr-2" style={{width:100+'%'}} type="email" placeholder="email" value={this.state.order.email || ''} onChange={(e) => this.handleChange('email', e)}/>
                 {/* Name and address */}

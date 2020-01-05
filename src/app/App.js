@@ -225,9 +225,9 @@ class ProductPage extends React.Component {
         return (
             <React.Fragment>
                 <h1 className="font-weight-light">{chosenProduct.title}</h1>
-                <hr className="border border-dark m-0"/>
+                <hr className="border border-dark m-0 mb-3"/>
                 <StoreItem picture={process.env.PUBLIC_URL + chosenProduct.picture_url}/>
-                <div className="my-4 d-flex justify-content-between">
+                <div className="mb-4 d-flex justify-content-between">
                     <div className="d-flex">
                         <button type="button" className="btn btn-dark mt-0" onClick={() => this.props.addToCart(chosenProduct, this.state.chosenSize)} style={{height:'36px'}}>add to cart</button>
                         <div className="select-style px-2">
@@ -256,7 +256,7 @@ function AllProductsPage(props) {
     return (
         <React.Fragment>
             <h1 className="font-weight-light">products</h1>
-            <hr className="border border-dark m-0"/>
+            <hr className="border border-dark m-0 mb-3"/>
             {props.products && props.products.map(product => (
                 <StoreItem key={product.id} picture={process.env.PUBLIC_URL + product.picture_url}
                     price={product.price} showPrice={true} to={product.title}/>
@@ -293,7 +293,7 @@ function StoreItem(props) {
 function InnerStoreItem(props) {
     return (
         <React.Fragment>
-            <img className="border border-dark mt-4" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
+            <img className="border border-dark mb-3" src={props.picture} style={{width: 100 + '%'}} alt='product'/>
             {props.showPrice &&
                 <div className="bottom-right font-weight-light">
                     ${props.price}
