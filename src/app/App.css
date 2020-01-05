@@ -73,6 +73,16 @@
     /* -webkit-appearance: none; */
     border-radius: 0px;
     text-align-last:center;
+
+    -webkit-appearance: none;
+    /* -moz-appearance: none;
+    appearance: none;
+    padding: .5em;
+    background: #efefef;
+    border: none;
+    border-radius: 3px;
+    padding: 1em 2em 1em 1em;
+    font-size: 1em; */
 }
 
 .select-style select:focus {
