@@ -1,4 +1,4 @@
-export const innerUrl = process.env.NODE_ENV === "development" ? "localhost:8000" : "store.danmallon.com";
+export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://store.danmallon.com";
 
 
 export function postData(data, lookup=false) {
@@ -7,7 +7,7 @@ export function postData(data, lookup=false) {
         endUrl = 'order-lookup';
     }
 
-    return fetch(`http://${innerUrl}/api/${endUrl}/`, {
+    return fetch(`${baseUrl}/api/${endUrl}/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
