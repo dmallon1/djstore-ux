@@ -118,7 +118,7 @@ class _CardForm extends React.Component {
                 <div className="d-flex justify-content-between">
                     <input required className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.order.city || ''} onChange={(e) => this.handleChange('city', e)}/>
                     <div className="select-style">
-                        <select required name="state" className="my-2 " value={this.state.order.state || ""} onChange={(e) => this.handleChange('state', e)} 
+                        <select required name="state" className="my-2 px-2" value={this.state.order.state || ""} onChange={(e) => this.handleChange('state', e)}
                                 style={{height:'28px', color:'white', backgroundColor:'black', fontSize: 18}}>
                             <option disabled hidden value="">select state</option>
                             {states.map((state,i) => (
@@ -158,7 +158,9 @@ class _CardForm extends React.Component {
 
                 {/* Submit */}
                 <div className="p-2 d-flex justify-content-center">
-                    <input type="submit" value="checkout" style={{fontSize:24+'px'}}/>
+                    <button type="submit" className="btn btn-dark" style={{fontSize:24+'px'}}>
+                        checkout
+                    </button>
                 </div>
             </form>
         );

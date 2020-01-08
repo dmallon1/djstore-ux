@@ -2,8 +2,6 @@ import React from 'react';
 import './App.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-// import logo from './img/dj-logo.png';
-// import cart from './img/cart.png';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {MyModal} from "./MyModal";
@@ -129,7 +127,7 @@ export class AppRouter extends React.Component {
         return (
             <Router>
                 <NavBarFunc productsInCart={this.state.productsInCart} numProducts={this.numProducts}/>
-                <div className="container">
+                <div className="container" style={{maxWidth: '500px'}}>
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>
                     <Route path="/checkout" render={(props) => <Stripe costs={this.costs}
                         productsInCart={this.state.productsInCart} handleShow={this.handleShow} {...props}

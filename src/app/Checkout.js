@@ -37,7 +37,7 @@ export function Checkout(props) {
                         <td className="p-2 text-right">${shippingCost}</td>
                     </tr>
                     <tr>
-                        <td className="p-2">estimated tax [i] (6%)</td>
+                        <td className="p-2">estimated tax</td>
                         <td className="p-2 text-right">${tax.toFixed(2)}</td>
                     </tr>
                     <tr className="font-weight-bold">
