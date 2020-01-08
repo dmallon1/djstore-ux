@@ -119,7 +119,7 @@ class _CardForm extends React.Component {
                     <input required className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.order.city || ''} onChange={(e) => this.handleChange('city', e)}/>
                     <div className="select-style">
                         <select required name="state" className="my-2 px-2" value={this.state.order.state || ""} onChange={(e) => this.handleChange('state', e)}
-                                style={{height:'28px', color:'white', backgroundColor:'black', fontSize: 18}}>
+                                style={{color:'white', backgroundColor:'black'}}>
                             <option disabled hidden value="">select state</option>
                             {states.map((state,i) => (
                                 <option key={i} value={state}>{state}</option>
@@ -143,10 +143,10 @@ class _CardForm extends React.Component {
                 <div className="float-right" style={{fontSize: '10px'}}>payments handled by <a href="https://stripe.com/" target="_blank" rel="noopener noreferrer">stripe</a></div><br/>
                 {/* Checkbox */}
                 <div className="car d-flex">
-                    <label>
-                        <input required style={{width:'25px', height:'25px'}}
-                            name="doesAgree" type="checkbox" checked={this.state.doesAgree}
-                            onChange={(e) => this.handleInputChange(e)} />
+                    <input required style={{width:'25px', height:'25px'}}
+                        name="doesAgree" type="checkbox" checked={this.state.doesAgree}
+                        onChange={(e) => this.handleInputChange(e)} id="male"/>
+                    <label className="pl-2" for="male">
                         I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>.
                     </label>
                 </div>
@@ -229,9 +229,9 @@ class MyStoreCheckout extends React.Component {
                 <Elements>
                     <CardForm {...this.props}/>
                 </Elements>
-                <Elements>
+                {/* <Elements>
                     <PayReqForm {...this.props}/>
-                </Elements>
+                </Elements> */}
             </div>
         );
     }
