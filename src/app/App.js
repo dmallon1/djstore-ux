@@ -177,7 +177,7 @@ function NavBarFunc(props) {
 
 function Footer() {
     return (
-        <div className="my-5 d-flex justify-content-around border border-dark" style={{fontSize:12+'px'}}>
+        <div className="my-5 d-flex justify-content-around border border-dark nav-color" style={{fontSize:12+'px', color: 'black'}}>
             <Link to="/order-lookup"><div className="p-3">order lookup</div></Link>
             <Link to="/sizing"><div className="p-3">sizing</div></Link>
             {/* <Link to="/faq"><div className="p-3">faq</div></Link> */}
@@ -272,7 +272,7 @@ function AllProductsPage(props) {
 function StoreItem(props) {
     if (props.to) {
         return (
-            <div className="container-thing" style={{marginLeft: 'auto', marginRight: 'auto'}}>
+            <div className="container-thing nav-color" style={{marginLeft: 'auto', marginRight: 'auto'}}>
                 <Link to={props.to}>
                     <InnerStoreItem {...props}/>
                 </Link>

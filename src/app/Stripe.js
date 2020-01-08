@@ -1,5 +1,5 @@
 import React from 'react';
-import {StripeProvider, Elements, injectStripe, CardElement, PaymentRequestButtonElement} from 'react-stripe-elements';
+import {StripeProvider, Elements, injectStripe, CardElement} from 'react-stripe-elements'; //PaymentRequestButtonElement
 import {Link} from "react-router-dom";
 import {Checkout} from './Checkout';
 import {Order} from "./Order";
@@ -146,8 +146,8 @@ class _CardForm extends React.Component {
                     <input required style={{width:'25px', height:'25px'}}
                         name="doesAgree" type="checkbox" checked={this.state.doesAgree}
                         onChange={(e) => this.handleInputChange(e)} id="male"/>
-                    <label className="pl-2" for="male">
-                        I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>.
+                    <label className="pl-2" htmlFor="male">
+                        I agree to the <Link to="/terms">terms</Link> and <Link to="/privacy">privacy policy</Link>
                     </label>
                 </div>
 
@@ -170,56 +170,56 @@ class _CardForm extends React.Component {
 const CardForm = injectStripe(_CardForm);
 
 
-class PaymentRequestForm extends React.Component {
-    constructor(props) {
-      super(props);
+// class PaymentRequestForm extends React.Component {
+//     constructor(props) {
+//       super(props);
 
-      // For full documentation of the available paymentRequest options, see:
-      // https://stripe.com/docs/stripe.js#the-payment-request-object
-      const paymentRequest = props.stripe.paymentRequest({
-        country: 'US',
-        currency: 'usd',
-        total: {
-          label: 'Demo total',
-          amount: 1000,
-        },
-      });
+//       // For full documentation of the available paymentRequest options, see:
+//       // https://stripe.com/docs/stripe.js#the-payment-request-object
+//       const paymentRequest = props.stripe.paymentRequest({
+//         country: 'US',
+//         currency: 'usd',
+//         total: {
+//           label: 'Demo total',
+//           amount: 1000,
+//         },
+//       });
 
-      paymentRequest.on('token', ({complete, token, ...data}) => {
-        console.log('Received Stripe token: ', token);
-        console.log('Received customer information: ', data);
-        complete('success');
-      });
+//       paymentRequest.on('token', ({complete, token, ...data}) => {
+//         console.log('Received Stripe token: ', token);
+//         console.log('Received customer information: ', data);
+//         complete('success');
+//       });
 
-      paymentRequest.canMakePayment().then((result) => {
-        console.log(result);
-        this.setState({canMakePayment: !!result});
-      });
+//       paymentRequest.canMakePayment().then((result) => {
+//         console.log(result);
+//         this.setState({canMakePayment: !!result});
+//       });
 
-      this.state = {
-        canMakePayment: false,
-        paymentRequest,
-      };
-    }
+//       this.state = {
+//         canMakePayment: false,
+//         paymentRequest,
+//       };
+//     }
 
-    render() {
-      return this.state.canMakePayment ? (
-        <PaymentRequestButtonElement
-          paymentRequest={this.state.paymentRequest}
-          className="PaymentRequestButton"
-          style={{
-            // For more details on how to style the Payment Request Button, see:
-            // https://stripe.com/docs/elements/payment-request-button#styling-the-element
-            paymentRequestButton: {
-              theme: 'light',
-              height: '64px',
-            },
-          }}
-        />
-      ) : null;
-    }
-  }
-  const PayReqForm = injectStripe(PaymentRequestForm);
+//     render() {
+//       return this.state.canMakePayment ? (
+//         <PaymentRequestButtonElement
+//           paymentRequest={this.state.paymentRequest}
+//           className="PaymentRequestButton"
+//           style={{
+//             // For more details on how to style the Payment Request Button, see:
+//             // https://stripe.com/docs/elements/payment-request-button#styling-the-element
+//             paymentRequestButton: {
+//               theme: 'light',
+//               height: '64px',
+//             },
+//           }}
+//         />
+//       ) : null;
+//     }
+//   }
+//   const PayReqForm = injectStripe(PaymentRequestForm);
 
 
 class MyStoreCheckout extends React.Component {
