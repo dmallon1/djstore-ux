@@ -68,7 +68,7 @@ class _CardForm extends React.Component {
                     this.setState({loading: false});
                     if (status !== 200) {
                         console.log(data);
-                        this.setState({errorMsg: data.detail});
+                        this.setState({errorMsg: data.detail || "error"});
                     } else {
                         this.props.updateOrderNumber(data.detail);
                         sessionStorage.setItem("order_id", data.detail);
@@ -76,7 +76,7 @@ class _CardForm extends React.Component {
                         this.props.history.push(`/order-lookup`);
                         this.props.resetCart();
                     }
-                }).catch(res => this.setState({errorMsg: 'error: please try again later'}));
+                }).catch(res => this.setState({errorMsg: 'error: please try again later', loading: false}));
             });
         }
     };

@@ -1,4 +1,4 @@
-export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://store.danmallon.com";
+export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://aubreyjobs.com";
 
 
 export function postData(data, lookup=false) {
