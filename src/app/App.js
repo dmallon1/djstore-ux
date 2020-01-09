@@ -226,6 +226,9 @@ class ProductPage extends React.Component {
             return null;
         }
 
+        const sizeWeights = {s: 0, m: 1, l: 2, xl: 3, xxl: 4, xxxl: 5};
+        chosenProduct.product_instances.sort((a, b) => sizeWeights[a.size] - sizeWeights[b.size]);
+
         return (
             <React.Fragment>
                 <h1 className="font-weight-light">{chosenProduct.title}</h1>
