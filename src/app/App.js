@@ -159,6 +159,13 @@ function NavBarFunc(props) {
             <Link to="/">
                 <img src={logo} height={30} alt="logo"/>
             </Link>
+            <Nav className="ml-auto nav-color">
+                <Link to="/order-lookup">
+                    <div className="border border-dark px-3">
+                        order lookup
+                    </div>
+                </Link>
+            </Nav>
             <Nav className="ml-auto">
                 <Link to="/checkout">
                     <div className="d-flex">
@@ -178,7 +185,6 @@ function NavBarFunc(props) {
 function Footer() {
     return (
         <div className="my-5 d-flex justify-content-around border border-dark nav-color" style={{fontSize:12+'px', color: 'black'}}>
-            <Link to="/order-lookup"><div className="p-3">order lookup</div></Link>
             <Link to="/sizing"><div className="p-3">sizing</div></Link>
             {/* <Link to="/faq"><div className="p-3">faq</div></Link> */}
             <Link to="/terms"><div className="p-3">terms</div></Link>

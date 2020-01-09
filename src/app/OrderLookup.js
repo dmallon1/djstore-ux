@@ -137,7 +137,7 @@ export class OrderLookup extends React.Component {
 
                 {/* Support Email */}
                 <p className="gray-color" style={{fontSize: 14}}>
-                    {"if you need help please email: "}
+                    {"if you need help, please email: "}
                     <a href="mailto:support@danmallon.com" target="_top">support@danmallon.com</a>
                 </p>
             </div>
