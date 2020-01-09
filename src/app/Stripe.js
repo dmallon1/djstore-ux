@@ -26,6 +26,7 @@ class _CardForm extends React.Component {
             doesAgree: false,
             order: new Order(),
             errorMsg: null,
+            loading: false,
         };
     }
 
@@ -49,6 +50,7 @@ class _CardForm extends React.Component {
 
     handleSubmitStripe = (ev) => {
         ev.preventDefault();
+        this.setState({loading: true});
         if (this.props.stripe) {
             this.props.stripe.createToken().then(payload => {
                 if (payload.error) {
@@ -63,6 +65,7 @@ class _CardForm extends React.Component {
                 orderInfo.cart_product_instances = this.getProductDict();
 
                 postData(orderInfo).then(({data, status}) => {
+                    this.setState({loading: false});
                     if (status !== 200) {
                         console.log(data);
                         this.setState({errorMsg: data.detail});
@@ -157,10 +160,15 @@ class _CardForm extends React.Component {
                 </label> */}
 
                 {/* Submit */}
-                <div className="p-2 d-flex justify-content-center">
-                    <button type="submit" className="btn btn-dark" style={{fontSize:24+'px'}}>
-                        checkout
-                    </button>
+                <div className="p-2 d-flex justify-content-around align-items-center">
+                    <div className="mr-5" style={{width:'30px'}}></div>
+                    <div className="">
+                        <button type="submit" disabled={this.state.loading} className="btn btn-dark" style={{fontSize:24+'px'}}>
+                            checkout
+                        </button>
+                    </div>
+                    {this.state.loading && <div className="loader mr-5"></div>}
+                    {!this.state.loading && <div className="mr-5" style={{width:'30px'}}></div>}
                 </div>
             </form>
         );
