@@ -152,7 +152,7 @@ export class AppRouter extends React.Component {
 
 
 function NavBarFunc(props) {
-    const logo = "/img/dj-logo.png";
+    const logo = "/img/aj-logo.png";
     const cart = "/img/cart.png";
     return (
         <Navbar>
