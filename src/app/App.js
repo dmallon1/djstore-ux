@@ -215,9 +215,15 @@ class ProductPage extends React.Component {
     getInitialSize() {
         const chosenProduct = this.props.products && this.props.products.find(el => el.title === this.props.match.params.product);
         if (chosenProduct) {
+            this.sortProductInstancesBySize(chosenProduct);
             return chosenProduct.product_instances[0].size;
         }
         return "";
+    }
+
+    sortProductInstancesBySize(chosenProduct) {
+        const sizeWeights = {s: 0, m: 1, l: 2, xl: 3, xxl: 4, xxxl: 5};
+        chosenProduct.product_instances.sort((a, b) => sizeWeights[a.size] - sizeWeights[b.size]);
     }
 
     render() {
@@ -226,8 +232,7 @@ class ProductPage extends React.Component {
             return null;
         }
 
-        const sizeWeights = {s: 0, m: 1, l: 2, xl: 3, xxl: 4, xxxl: 5};
-        chosenProduct.product_instances.sort((a, b) => sizeWeights[a.size] - sizeWeights[b.size]);
+        this.sortProductInstancesBySize(chosenProduct);
 
         return (
             <React.Fragment>
