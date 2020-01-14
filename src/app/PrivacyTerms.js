@@ -15,9 +15,10 @@ export function Terms() {
 function Inner({page}) {
     return (
         <div>
-            <h1>{copy[page].title}</h1>
-            {copy[page].content.map(item => (
-                <div>
+            <h1 className="font-weight-light">{copy[page].title}</h1>
+            <hr className="border border-dark m-0 mb-3"/>
+            {copy[page].content.map((item, i) => (
+                <div key={i}>
                     <h4>{item.header}</h4>
                     <p>{item.section}</p>
                 </div>
