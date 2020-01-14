@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import {Stripe} from "./Stripe";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import {MyModal} from "./MyModal";
-import {getItem, baseUrl} from "./utils";
+import {getItem, baseUrl, ScrollToTop} from "./utils";
 import {SizeChart} from "./Sizing";
 import {OrderLookup} from "./OrderLookup";
 import {Privacy, Terms} from "./PrivacyTerms";
@@ -127,6 +127,7 @@ export class AppRouter extends React.Component {
     render() {
         return (
             <Router>
+                <ScrollToTop />
                 <NavBarFunc productsInCart={this.state.productsInCart} numProducts={this.numProducts}/>
                 <div className="container" style={{maxWidth: '500px'}}>
                     <Route path="/" exact render={() => <AllProductsPage products={this.state.products}/>}/>

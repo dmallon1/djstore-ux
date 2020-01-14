@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+
 export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "https://aubreyjobs.com";
 
 
@@ -91,4 +95,15 @@ function getCookie(name) {
     const value = "; " + document.cookie;
     let parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+
+export function ScrollToTop() {
+    const {pathname} = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
 }
