@@ -8,6 +8,7 @@ import {MyModal} from "./MyModal";
 import {getItem, baseUrl} from "./utils";
 import {SizeChart} from "./Sizing";
 import {OrderLookup} from "./OrderLookup";
+import {Privacy, Terms} from "./PrivacyTerms";
 
 
 export class AppRouter extends React.Component {
@@ -136,6 +137,8 @@ export class AppRouter extends React.Component {
                         orderNumber={this.state.orderNumber} products={this.state.products}
                         productInstances={this.state.productInstances} {...props} />}/>
                     <Route path="/sizing" render={SizeChart}/>
+                    <Route path="/privacy" render={Privacy}/>
+                    <Route path="/terms" render={Terms}/>
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
                         this.addToCart(product, chosenSize)}/>}/>
