@@ -143,8 +143,8 @@ export class AppRouter extends React.Component {
                     <Route path="/:product" render={(props) => <ProductPage {...props}
                         products={this.state.products} addToCart={(product, chosenSize) =>
                         this.addToCart(product, chosenSize)}/>}/>
-                    <Footer/>
                 </div>
+                <Footer/>
                 <MyModal showModal={this.state.showModal} handleClose={this.handleClose}
                     increaseInstanceCount={() => this.increaseInstanceCount()} selctedCartItem={this.state.selctedCartItem}
                     decreaseInstanceCount={() => this.decreaseInstanceCount()} deleteInstance={() => this.deleteInstance()}
@@ -159,15 +159,13 @@ function NavBarFunc(props) {
     const logo = "/img/aj-logo.png";
     const cart = "/img/cart.png";
     return (
-        <Navbar>
+        <Navbar className="border border-dark m-2 mx-3">
             <Link to="/">
                 <img src={logo} height={30} alt="logo"/>
             </Link>
             <Nav className="ml-auto nav-color">
                 <Link to="/order-lookup">
-                    <div className="border border-dark px-3">
-                        order lookup
-                    </div>
+                    order lookup
                 </Link>
             </Nav>
             <Nav className="ml-auto">
@@ -188,7 +186,7 @@ function NavBarFunc(props) {
 
 function Footer() {
     return (
-        <div className="my-5 d-flex justify-content-around border border-dark nav-color" style={{fontSize:12+'px', color: 'black'}}>
+        <div className="my-5 mx-3 d-flex justify-content-around border border-dark nav-color" style={{fontSize:12+'px', color: 'black'}}>
             <Link to="/sizing"><div className="p-3">sizing</div></Link>
             {/* <Link to="/faq"><div className="p-3">faq</div></Link> */}
             <Link to="/terms"><div className="p-3">terms</div></Link>
@@ -203,7 +201,7 @@ class ProductPage extends React.Component {
         super(props);
         this.state = {
             chosenSize: this.getInitialSize(),
-        }
+        };
     }
 
     componentDidUpdate(prevProps) {
