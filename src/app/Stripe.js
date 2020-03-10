@@ -107,19 +107,19 @@ class _CardForm extends React.Component {
                 <h1 className="font-weight-light">checkout</h1>
                 <hr className="border border-dark m-0 mb-3"/>
                 <Checkout {...this.props}/>
-                <input required className="mb-2 mr-2" style={{width:100+'%'}} type="email" placeholder="email" value={this.state.order.email || ''} onChange={(e) => this.handleChange('email', e)}/>
+                <input required className="mb-2 mr-2 pl-2" style={{width:100+'%'}} type="email" placeholder="email" value={this.state.order.email || ''} onChange={(e) => this.handleChange('email', e)}/>
                 {/* Name and address */}
                 <div className="d-flex justify-content-between">
-                    <input required className="my-2 mr-2" style={{width:100+'%'}} type="text" placeholder="first name" value={this.state.order.first_name || ''} onChange={(e) => this.handleChange('first_name', e)}/>
-                    <input required className="my-2 ml-2" style={{width:100+'%'}} type="text" placeholder="last name" value={this.state.order.last_name || ''} onChange={(e) => this.handleChange('last_name', e)}/>
+                    <input required className="my-2 mr-2 pl-2" style={{width:100+'%'}} type="text" placeholder="first name" value={this.state.order.first_name || ''} onChange={(e) => this.handleChange('first_name', e)}/>
+                    <input required className="my-2 ml-2 pl-2" style={{width:100+'%'}} type="text" placeholder="last name" value={this.state.order.last_name || ''} onChange={(e) => this.handleChange('last_name', e)}/>
                 </div>
-                <input required className="my-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.order.address1 || ''} onChange={(e) => this.handleChange('address1', e)}/>
+                <input required className="my-2 pl-2" style={{width:100+'%'}} type="text" placeholder="address" value={this.state.order.address1 || ''} onChange={(e) => this.handleChange('address1', e)}/>
                 <div className="d-flex justify-content-between">
-                    <input className="my-2 mr-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.order.address2 || ''} onChange={(e) => this.handleChange('address2', e)}/>
-                    <input required className="my-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.order.zip_code || ''} onChange={(e) => this.handleChange('zip_code', e)}/>
+                    <input className="my-2 mr-2 pl-2" style={{width:60+'%'}} type="text" placeholder="apt, unit, etc" value={this.state.order.address2 || ''} onChange={(e) => this.handleChange('address2', e)}/>
+                    <input required className="my-2 pl-2" style={{width:40+'%'}} type="text" placeholder="zip code" value={this.state.order.zip_code || ''} onChange={(e) => this.handleChange('zip_code', e)}/>
                 </div>
                 <div className="d-flex justify-content-between">
-                    <input required className="my-2 mr-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.order.city || ''} onChange={(e) => this.handleChange('city', e)}/>
+                    <input required className="my-2 mr-2 pl-2" style={{width:80+'%'}} type="text" placeholder="city" value={this.state.order.city || ''} onChange={(e) => this.handleChange('city', e)}/>
                     <div className="select-style">
                         <select required name="state" className="my-2 px-2" value={this.state.order.state || ""} onChange={(e) => this.handleChange('state', e)}
                                 style={{color:'white', backgroundColor:'black'}}>
